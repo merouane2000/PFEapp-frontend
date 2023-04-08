@@ -1,0 +1,57 @@
+.my-button {
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  width: 300px;
+  height: 40px;
+  cursor: pointer;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.5s ease;
+}
+
+.my-button:hover {
+  background-color: #393E46;
+  color: #eeeeee;
+  transform: scale(1.04);
+
+}
+
+.input-log-in {
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 400px;
+  height: 40px;
+  padding-left: 20px;
+
+}
+
+.input-register {
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 180px;
+  height: 40px;
+  padding-left: 20px;
+
+}
+
+
+input[type=checkbox]:checked {
+  accent-color: #222831 !important;
+
+}
