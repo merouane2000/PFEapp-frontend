@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const InitialValues = {
   fullname: "",
@@ -12,9 +14,25 @@ const InitialValues = {
   email: "",
   password: "",
 };
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function Register() {
   const [values, setValues] = useState(InitialValues);
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleChange = (e) => {
     setValues({
@@ -29,7 +47,13 @@ function Register() {
         formInfo: values,
       });
       console.log(response.data);
-      navigate("/admin-dashboard");
+      if (response.data.alreadyExists) {
+        handleClick();
+      } else {
+        sessionStorage.setItem("userID", response.data.userID);
+        sessionStorage.setItem("userName", response.data.username);
+        navigate("/admin-dashboard");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -218,6 +242,24 @@ function Register() {
                     </Link>
                   </span>{" "}
                 </span>
+
+                <Snackbar
+                  style={{ borderRadius: "30px" }}
+                  open={open}
+                  autoHideDuration={6000}
+                  onClose={handleClose}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                  >
+                    <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+                      {" "}
+                      Username or password already exists{" "}
+                    </span>
+                  </Alert>
+                </Snackbar>
               </Grid>
             </Grid>
           </div>

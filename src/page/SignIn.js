@@ -7,7 +7,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-
 const InitialValues = {
   username: "",
   password: "",
@@ -19,7 +18,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function SignIn() {
   const [values, setValues] = useState(InitialValues);
   const navigate = useNavigate();
-
 
   const [open, setOpen] = React.useState(false);
 
@@ -34,7 +32,6 @@ function SignIn() {
 
     setOpen(false);
   };
-
 
   const handleChange = (e) => {
     setValues({
@@ -53,6 +50,8 @@ function SignIn() {
       if (response.data.isAuth) {
         navigate("/admin-dashboard");
         console.log(response.data);
+        sessionStorage.setItem("userID", response.data.userID);
+        sessionStorage.setItem("userName", response.data.username);
       } else {
         handleClick();
       }
@@ -201,7 +200,7 @@ function SignIn() {
                     </Grid>
                   </Grid>
                 </button>
-              
+
                 <Snackbar
                   style={{ borderRadius: "30px" }}
                   open={open}
@@ -219,7 +218,6 @@ function SignIn() {
                     </span>
                   </Alert>
                 </Snackbar>
-    
               </Grid>
             </Grid>
           </div>
