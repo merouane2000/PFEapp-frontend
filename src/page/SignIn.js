@@ -52,7 +52,6 @@ function SignIn() {
         console.log(response.data);
         sessionStorage.setItem("userID", response.data.userID);
         sessionStorage.setItem("userName", response.data.username);
-        sessionStorage.setItem("FromRegister", false);
       } else {
         handleClick();
       }

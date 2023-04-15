@@ -1,8 +1,7 @@
+import React, {  useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import LogoutIcon from "@mui/icons-material/Logout";
 import myImage from "../../write-1727488.svg";
-
-import React, {  useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +30,9 @@ function Dashboard() {
   const handleReset = () => {
     navigate("/");
     sessionStorage.clear();
+  };
+  const handelNavigationToCreate = () => {
+    navigate("/admin-dashboard/main-create");
   };
 
   return (
@@ -111,7 +113,7 @@ function Dashboard() {
                   <img src={myImage} width="200" height="250" />
                 </div>
                 <div className="justify-button">
-                  <button className="project-button"> Projects</button>
+                  <button className="project-button" onClick={handelNavigationToCreate}> Projects</button>
                 </div>
               </div>
             </Grid>
@@ -131,7 +133,7 @@ function Dashboard() {
 
               <div className="rectangle-button">
                 <div className="rectangle">
-                  {/* <img src={} width="200" height="250"/> */}
+                  {/* <img src={myImage1} width="200" height="250"/> */}
                 </div>
                 <div className="justify-button">
                   <button className="project-button"> Projects</button>

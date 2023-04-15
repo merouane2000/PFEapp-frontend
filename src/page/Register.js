@@ -52,7 +52,6 @@ function Register() {
       } else {
         sessionStorage.setItem("userID", response.data.userID);
         sessionStorage.setItem("userName", response.data.username);
-        sessionStorage.setItem("FromRegister", true);
         navigate("/admin-dashboard");
       }
     } catch (error) {
