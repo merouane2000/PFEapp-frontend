@@ -1,10 +1,37 @@
 import Grid from "@mui/material/Grid";
 import LogoutIcon from "@mui/icons-material/Logout";
-import myImage from '../../write-1727488.svg';
-import myImage1 from '../../magnifier-1724298.svg';
+import myImage from "../../write-1727488.svg";
+
+import React, {  useEffect } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const username = sessionStorage.getItem("userName");
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    handleClick();
+  }, []);
+  const handleReset = () => {
+    navigate("/");
+    sessionStorage.clear();
+  };
 
   return (
     <div>
@@ -26,7 +53,7 @@ function Dashboard() {
             justifyContent="center"
             style={{ paddingTop: "18px", paddingRight: "25px" }}
           >
-            <button className="logout-button">
+            <button className="logout-button" onClick={handleReset}>
               <Grid
                 container
                 justifyContent="center"
@@ -73,7 +100,7 @@ function Dashboard() {
                   fontWeight: 500,
                   color: "#393E46",
                   paddingTop: "30px",
-                  paddingLeft:"53px"
+                  paddingLeft: "53px",
                 }}
               >
                 Create{" "}
@@ -81,8 +108,7 @@ function Dashboard() {
 
               <div className="rectangle-button">
                 <div className="rectangle">
-                 <img src={myImage} width="200" height="250"/>
-                
+                  <img src={myImage} width="200" height="250" />
                 </div>
                 <div className="justify-button">
                   <button className="project-button"> Projects</button>
@@ -100,12 +126,12 @@ function Dashboard() {
                   paddingTop: "30px",
                 }}
               >
-                Collaborate in  {" "}
+                Collaborate in{" "}
               </span>
 
               <div className="rectangle-button">
                 <div className="rectangle">
-                {/* <img src={} width="200" height="250"/> */}
+                  {/* <img src={} width="200" height="250"/> */}
                 </div>
                 <div className="justify-button">
                   <button className="project-button"> Projects</button>
@@ -121,25 +147,36 @@ function Dashboard() {
                   fontWeight: 500,
                   color: "#393E46",
                   paddingTop: "30px",
-                  paddingLeft:"30px"
+                  paddingLeft: "30px",
                 }}
               >
-                Search in  {" "}
+                Search in{" "}
               </span>
 
               <div className="rectangle-button">
                 <div className="rectangle">
-                    <img src={myImage1} width="200" height="250"/>
+                  {/* <img src={Icon} width="200" height="250" /> */}
                 </div>
-                <div  className="justify-button">
+                <div className="justify-button">
                   <button className="project-button"> Projects</button>
                 </div>
               </div>
             </Grid>
           </Grid>
 
-        
-        
+          <Snackbar
+            style={{ borderRadius: "30px" }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+              <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+                {" "}
+                You have logged in successfully{" "}
+              </span>
+            </Alert>
+          </Snackbar>
         </Grid>
       </div>
     </div>
