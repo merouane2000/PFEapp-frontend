@@ -4,10 +4,12 @@ import Register from "./page/Register";
 import Dashboard from "./page/admin/Dashboard";
 import SignIn from "./page/SignIn";
 import MainPage from "./page/admin/CreateProjects/MainPage";
+import StepContext from "./StepContext";
 
 function App() {
   return (
     <div className="App">
+      
       <Router>
         <Routes>
           <Route path="/" element={<Register />} />
@@ -16,6 +18,8 @@ function App() {
           <Route path="/admin-dashboard/main-create" element={<MainPage/>} />
         </Routes>
       </Router>
+   
+      
     </div>
   );
 }
