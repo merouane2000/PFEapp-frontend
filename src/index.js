@@ -3,16 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import StepContext from "./StepContext";
+import AppContextProvider from "./Contexts/AppContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-<StepContext>
   <React.StrictMode>
-      <App />
-    </React.StrictMode>
-</StepContext>
-
+    <AppContextProvider>
+        <App />
+    </AppContextProvider>
+  </React.StrictMode>
 );
 
 reportWebVitals();

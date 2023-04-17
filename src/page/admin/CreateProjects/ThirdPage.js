@@ -1,38 +1,13 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 function ThirdPage() {
-    const navigate = useNavigate();
-    const handleBackToHomePage = () => {
-      navigate("/admin-dashboard");}
+
     return (
         <div>
-        <Grid
-          justify="flex-end"
-          style={{
-            paddingTop: "18px",
-            paddingRight: "25px",
-            paddingLeft: "1250px",
-          }}
-        >
-          <button className="logout-button" onClick={handleBackToHomePage}>
-            <Grid
-              container
-              justifyContent="center"
-              style={{ paddingTop: "20px", paddingLeft: "15px" }}
-              spacing={2}
-            >
-              <Grid>Home</Grid>
-              <Grid>
-                <HomeIcon style={{ paddingLeft: "3px" }} fontSize="small" />
-              </Grid>
-            </Grid>
-          </button>
-        </Grid>
+      
         <div>
           <form>
             <div style={{ paddingTop: "60px" }}>
