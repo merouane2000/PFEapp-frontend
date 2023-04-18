@@ -8,7 +8,9 @@ const AppContextProvider = (props) => {
   const [userData, setUserData] = useState([]);
   const [finalData, setFinalData] = useState([]);
 
-
+ function submitData(){
+console.log(userData)
+ }
   return (
     <div>
       <AppContext.Provider
@@ -19,6 +21,7 @@ const AppContextProvider = (props) => {
         setUserData,
         finalData,
         setFinalData,
+        submitData
       }}
       >  
       {props.children} 

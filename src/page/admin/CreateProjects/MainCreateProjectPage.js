@@ -11,6 +11,8 @@ import HomeIcon from "@mui/icons-material/Home";
 
 const steppeStyle={
     backgroundColor:"#FCFAF1",
+    width: "50%",
+    paddingLeft: "381px"
 }
 
 function MainCreateProjectPage() {
@@ -56,13 +58,38 @@ function MainCreateProjectPage() {
       </Grid>
  <Stepper style={steppeStyle}  activeStep={currentStep-1} orientation="horizontal" >
 <Step >
-<StepLabel ></StepLabel>
+<StepLabel>
+  <span  style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "#393E46",
+                      textAlign: "center",
+                      fontFamily:"Outfit"
+                    }}
+                    >Add name type of diagram and model </span>
+</StepLabel>
 </Step> 
 <Step>
-<StepLabel></StepLabel>
+<StepLabel> <span  style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "#393E46",
+                      textAlign: "center",
+                      fontFamily:"Outfit"
+                    }}
+                    >Add the Source/Target Model</span></StepLabel>
 </Step>
 <Step>
-<StepLabel></StepLabel>
+<StepLabel>
+<span  style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "#393E46",
+                      textAlign: "center",
+                      fontFamily:"Outfit"
+                    }}
+                    > Textual Describe for the Source/Target model </span>
+</StepLabel>
 </Step>
 </Stepper>
 {showStep(currentStep)}

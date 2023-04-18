@@ -142,3 +142,44 @@ input[type=checkbox]:checked {
   padding-left: 20px;
 
 }
+.input-Dialog{
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 250px;
+  height: 30px;
+  padding-left: 20px;
+
+}
+.input-Dialog-littel{
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 120px;
+  height: 30px;
+  padding-left: 3px;
+
+}
+.input-Dialog-littel-nrml{
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 111px;
+  height: 24px;
+  padding-left: 3px;
+}

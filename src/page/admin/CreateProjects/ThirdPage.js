@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import { AppContext } from "../../../Contexts/AppContext";
 
 function ThirdPage() {
+  const { setStep, userData, setUserData,submitData } = useContext(AppContext);
 
     return (
         <div>
       
         <div>
           <form>
-            <div style={{ paddingTop: "60px" }}>
+            <div style={{ paddingTop: "35px" }}>
               <Grid
                 container
                 direction="column"
@@ -140,9 +142,9 @@ function ThirdPage() {
                   </Grid>
                 </Grid>
               </div>
-              <div style={{ paddingTop: "70px" }}>
-                <Grid container direction="row" justifyContent="space-around">
-                  <button className="logout-button">
+              <div style={{ paddingTop: "40px" }}>
+                <Grid container direction="row" justifyContent="center" style={{columnGap:"25px"}}>
+                <button className="logout-button" onClick={()=>{setStep(2)}}>
                     <Grid
                       container
                       justifyContent="center"
@@ -158,17 +160,16 @@ function ThirdPage() {
                       <Grid>Prev</Grid>
                     </Grid>
                   </button>
-                  <button className="logout-button">
+                  <button className="logout-button" onClick={submitData}>
                     <Grid
                       container
                       justifyContent="center"
-                      style={{ paddingTop: "20px", paddingLeft: "25px" }}
+                      style={{ paddingTop: "20px", paddingLeft: "20px" }}
                       spacing={2}
                     >
-                      <Grid>Next</Grid>
+                      <Grid>Submit</Grid>
                       <Grid>
-                        <NavigateNextIcon
-                          style={{ paddingLeft: "3px" }}
+                        <KeyboardArrowUpIcon
                           fontSize="small"
                         />
                       </Grid>

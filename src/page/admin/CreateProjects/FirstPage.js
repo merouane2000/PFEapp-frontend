@@ -5,15 +5,12 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { AppContext } from "../../../Contexts/AppContext";
 
 function FirstPage() {
-
- 
   const { setStep, userData, setUserData } = useContext(AppContext);
   return (
     <div>
-     
       <div>
         <form>
-          <div style={{ paddingTop: "60px" }}>
+          <div style={{ paddingTop: "35px" }}>
             <Grid
               container
               direction="column"
@@ -36,6 +33,10 @@ function FirstPage() {
               </Grid>
               <Grid md={4}>
                 <input
+                  value={userData["ModelName"]}
+                  onChange={(e) => {
+                    setUserData({ ...userData, ModelName: e.target.value });
+                  }}
                   className="input-log-in"
                   label="ModelName"
                   type="ModelName"
@@ -51,20 +52,27 @@ function FirstPage() {
                     fontWeight: 400,
                     color: "#393E46",
                     textAlign: "center",
-                    paddingRight: "275px",
+                    paddingRight: "150px",
                   }}
                 >
-                  Model Diagram{" "}
+                 Choose Meta-Model Diagram{" "}
                 </span>
               </Grid>
               <Grid md={4}>
-                <select className="Select-input">
-                  <option value="Entity Relationship Diagram">
+                <select
+                  className="Select-input"
+                  value={userData["typeOfMetaModelDiagram"]}
+                  onChange={(e) => {
+                    setUserData({
+                      ...userData,
+                      "typeOfMetaModelDiagram": e.target.value,
+                    });
+                  }}
+                >
+                  <option value="isEntityRelationshipDiagram">
                     Entity Relationship Diagram
                   </option>
-                  <option value="Class Diagram (UML)">
-                    Class Diagram (UML)
-                  </option>
+                  <option value="isClassDiagram">Class Diagram (UML)</option>
                 </select>
               </Grid>
               <Grid md={4}>
@@ -74,16 +82,27 @@ function FirstPage() {
                     fontWeight: 400,
                     color: "#393E46",
                     textAlign: "center",
-                    paddingRight: "300px",
+                    paddingRight: "190px",
                   }}
                 >
-                  Model Type{" "}
+                 Choose Meta-Model Type {" "}
                 </span>
               </Grid>
               <Grid md={4}>
-                <select className="Select-input">
-                  <option value="Source Model">Source Model</option>
-                  <option value="Target Model">Target Model</option>
+                <select
+                  className="Select-input"
+                  value={userData["typeOfMetaModel"]}
+                  onChange={(e) => {
+                    setUserData({
+                      ...userData,
+                      "typeOfMetaModel": e.target.value,
+                    });
+                  }}
+                >
+                  <option value="SM">
+                  Source Model (SM)
+                  </option>
+                  <option value="TM">Target Model (TM)</option>
                 </select>
               </Grid>
             </Grid>
@@ -111,9 +130,13 @@ function FirstPage() {
 
                   <input
                     className="input-create"
+                    value={userData["tableNumber"]}
+                    onChange={(e) => {
+                      setUserData({ ...userData, tableNumber: e.target.value });
+                    }}
                     label="table-number"
                     type="text"
-                    name="table-number"
+                    name="tableNumber"
                     required
                     placeholder="Enter number"
                   />
@@ -134,34 +157,35 @@ function FirstPage() {
 
                   <input
                     className="input-create"
+                    value={userData["assosiationNumber"]}
+                    onChange={(e) => {
+                      setUserData({
+                        ...userData,
+                        assosiationNumber: e.target.value,
+                      });
+                    }}
                     label="assosiation-number"
                     type="text"
-                    name="assosiation-number"
+                    name="assosiationNumber"
                     required
                     placeholder="Enter number"
                   />
                 </Grid>
               </Grid>
             </div>
-            <div style={{ paddingTop: "70px" }}>
-              <Grid container direction="row" justifyContent="space-around">
-                <button className="logout-button">
-                  <Grid
-                    container
-                    justifyContent="center"
-                    style={{ paddingTop: "20px" }}
-                    spacing={2}
-                  >
-                    <Grid>
-                      <NavigateBeforeIcon
-                        style={{ paddingLeft: "3px" }}
-                        fontSize="small"
-                      />
-                    </Grid>
-                    <Grid>Prev</Grid>
-                  </Grid>
-                </button>
-                <button className="logout-button" onClick={()=>{setStep(2)}}>
+            <div style={{ paddingTop: "40px" }}>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                style={{ columnGap: "50px" }}
+              >
+                <button
+                  className="logout-button"
+                  onClick={() => {
+                    setStep(2);
+                  }}
+                >
                   <Grid
                     container
                     justifyContent="center"
