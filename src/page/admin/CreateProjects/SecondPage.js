@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -10,11 +10,15 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import AddIcon from "@mui/icons-material/Add";
 import DialogTitle from "@mui/material/DialogTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function SecondPage() {
-  const { setStep, userData, setUserData } = useContext(AppContext);
-
+  const { setStep, userData, setUserData, tableContent, setTableContent } =
+    useContext(AppContext);
+  const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -34,6 +38,12 @@ function SecondPage() {
     handleClick();
   }, []);
 
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
   const [openDialog, setopenDialog] = React.useState(false);
 
   const handleClickopenDialog = () => {
@@ -45,6 +55,17 @@ function SecondPage() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+  };
+  const handelAddAttribute = () => {
+    if (data !== null) {
+      setAllData([...allData, data]);
+      setData([]);
+    }
+  };
+  const handleDeleteAttribute = (index) => {
+    const deleteData = [...allData];
+    deleteData.splice(index, 1);
+    setAllData(deleteData);
   };
 
   return (
@@ -73,7 +94,7 @@ function SecondPage() {
                   </Grid>
                 </button>
               </Grid>
-              <Dialog open={openDialog} onClose={handleCloseDialog}>
+              <Dialog open={openDialog} onClose={handleCloseDialog} >
                 <Grid container justifyContent="center" direction="column">
                   <Grid container justifyContent="center">
                     <span
@@ -90,10 +111,11 @@ function SecondPage() {
                   </Grid>
                   <Grid container justifyContent="center">
                     <input
+                      onChange={handleChange}
                       className="input-Dialog"
-                      label="tablename"
+                      label="tableName"
                       type="text"
-                      name="tablename"
+                      name="tableName"
                       required
                       placeholder="Enter your table name"
                     />
@@ -106,42 +128,134 @@ function SecondPage() {
                     }}
                   />
                 </Grid>
-                <Grid container justifyContent="space-between" direction="row">
-                  <select className="input-Dialog-littel">
-                    <option value="+">Public (+)</option>
-                    <option value="-">Private (-)</option>
-                    <option value="#">Protected (#)</option>
-                  </select>
 
-                  <input
-                    className="input-Dialog-littel-nrml"
-                    label="attributename"
-                    type="text"
-                    name="attributename"
-                    required
-                    placeholder="Attribute name"
-                  />
+                <Grid container direction="row" justifyContent="space-around">
+                  <div>
+                    <Grid container direction="column">
+                      <span>Visibility</span>
+                      <select
+                        className="input-Dialog-littel"
+                        value={data.visibilty}
+                        onChange={handleChange}
+                        name="attributeVisibilty"
+                      >
+                        <option value="+">Public (+)</option>
+                        <option value="-">Private (-)</option>
+                        <option value="#">Protected (#)</option>
+                      </select>
+                    </Grid>
+                  </div>
+                  <div>
+                    <Grid container direction="column">
+                      <span>Attribute name</span>
+                      <input
+                        onChange={handleChange}
+                        className="input-Dialog-littel-nrml"
+                        label="attributename"
+                        type="text"
+                        name="attributeName"
+                        required
+                        placeholder="Attribute name"
+                      />
+                    </Grid>
+                  </div>
+                  <div>
+                    <Grid container direction="column">
+                      <span>Type</span>
+                      <select
+                        className="input-Dialog-littel"
+                        onChange={handleChange}
+                        value={data.type}
+                        name="attributeType"
+                      >
+                        <option value="Integer">Integer</option>
+                        <option value="String">String</option>
+                        <option value="Boolean">Boolean</option>
+                        <option value="Float">Float</option>
+                        <option value="Date/Time">Date/Time</option>
+                        <option value="Object">Object</option>
+                        <option value="Enumeration">Enumeration</option>
+                      </select>
+                    </Grid>
+                  </div>
+                  <div style={{ paddingTop: "20px" }}>
+                    <button
+                      className="logout-button"
+                      style={{ height: "32px" }}
+                      onClick={handelAddAttribute}
+                    >
+                      <Grid
+                        container
+                        justifyContent="center"
+                        style={{ paddingTop: "19px", paddingLeft: "20px" }}
+                        spacing={2}
+                      >
+                        <Grid>Add</Grid>
+                        <Grid paddingLeft="5px">
+                          <AddIcon fontSize="small" />
+                        </Grid>
+                      </Grid>
+                    </button>
+                  </div>
                 </Grid>
                 <DialogContent>
-                  <DialogContentText>
-                    To subscribe to this website, please enter your email
-                    address here. We will send updates occasionally.
-                  </DialogContentText>
-                  <input
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                    variant="standard"
-                  />
+                  <div>
+                    <ol>
+                      {allData.map((data, index) => (
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="space-around"
+                        >
+                         
+                            <li key={index}>
+                              <div>
+                                <Grid>
+
+                                <span>
+                                  {data.attributeVisibilty +
+                                    " " +
+                                    data.attributeName +
+                                    " : " +
+                                    data.attributeType}{" "}
+                                </span>
+                                </Grid>
+                              </div>
+                              <div>
+                                <button
+                                  className="logout-button"
+                                  onClick={() => handleDeleteAttribute(index)}
+                                >
+                                  <Grid
+                                    container
+                                    justifyContent="center"
+                                    style={{
+                                      paddingTop: "19px",
+                                      paddingLeft: "20px",
+                                    }}
+                                    spacing={2}
+                                  >
+                                    <Grid>Delete</Grid>
+                                    <Grid paddingLeft="3px">
+                                      <DeleteIcon fontSize="small" />
+                                    </Grid>
+                                  </Grid>
+                                </button>
+                              </div>
+                            </li>
+                      
+                        </Grid>
+                      ))}
+                    </ol>
+                   
+                  </div>
                 </DialogContent>
                 <DialogActions>
                   <button onClick={handleCloseDialog}>Cancel</button>
                   <button onClick={handleCloseDialog}>Subscribe</button>
                 </DialogActions>
               </Dialog>
+
               {/* <Grid md={4}>
                   <input
                     className="input-log-in"
@@ -250,60 +364,64 @@ function SecondPage() {
                     />
                   </Grid>
                 </Grid>
-              </div>
-              <div style={{ paddingTop: "40px" }}>
-                <Grid container direction="row" justifyContent="center" style={{columnGap:"25px"}}>
-                <button className="logout-button" onClick={()=>{setStep(1)}}>
-                    <Grid
-                      container
-                      justifyContent="center"
-                      style={{ paddingTop: "20px" }}
-                      spacing={2}
-                    >
-                      <Grid>
-                        <NavigateBeforeIcon
-                          style={{ paddingLeft: "3px" }}
-                          fontSize="small"
-                        />
-                      </Grid>
-                      <Grid>Prev</Grid>
+                      </div>*/}
+            <div style={{ paddingTop: "40px" }}>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                style={{ columnGap: "25px" }}
+              >
+                <button
+                  className="logout-button"
+                  onClick={() => {
+                    setStep(1);
+                  }}
+                >
+                  <Grid
+                    container
+                    justifyContent="center"
+                    style={{ paddingTop: "20px" }}
+                    spacing={2}
+                  >
+                    <Grid>
+                      <NavigateBeforeIcon
+                        style={{ paddingLeft: "3px" }}
+                        fontSize="small"
+                      />
                     </Grid>
-                  </button>
-                  <button className="logout-button" onClick={()=>{setStep(3)}}>
-                    <Grid
-                      container
-                      justifyContent="center"
-                      style={{ paddingTop: "20px", paddingLeft: "25px" }}
-                      spacing={2}
-                    >
-                      <Grid>Next</Grid>
-                      <Grid>
-                        <NavigateNextIcon
-                          style={{ paddingLeft: "3px" }}
-                          fontSize="small"
-                        />
-                      </Grid>
+                    <Grid>Prev</Grid>
+                  </Grid>
+                </button>
+                <button
+                  className="logout-button"
+                  onClick={() => {
+                    setStep(3);
+                  }}
+                >
+                  <Grid
+                    container
+                    justifyContent="center"
+                    style={{ paddingTop: "20px", paddingLeft: "25px" }}
+                    spacing={2}
+                  >
+                    <Grid>Next</Grid>
+                    <Grid>
+                      <NavigateNextIcon
+                        style={{ paddingLeft: "3px" }}
+                        fontSize="small"
+                      />
                     </Grid>
-                  </button>
-                </Grid>
-              </div> */}
+                  </Grid>
+                </button>
+              </Grid>
+            </div>
             <Snackbar
               style={{ borderRadius: "30px" }}
               open={open}
               onClose={handleClose}
             >
-              {userData.tableNumber != null ? (
-                <Alert
-                  onClose={handleClose}
-                  severity="info"
-                  sx={{ width: "100%" }}
-                >
-                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-                    {" "}
-                    You have {userData.tableNumber} Table to fill it{" "}
-                  </span>
-                </Alert>
-              ) : (
+              {typeof userData.tableNumber !== typeof 5 ? (
                 <Alert
                   onClose={handleClose}
                   severity="warning"
@@ -313,6 +431,17 @@ function SecondPage() {
                     {" "}
                     An initial value must be given to the table number text
                     field{" "}
+                  </span>
+                </Alert>
+              ) : (
+                <Alert
+                  onClose={handleClose}
+                  severity="info"
+                  sx={{ width: "100%" }}
+                >
+                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+                    {" "}
+                    You have {userData.tableNumber} Table to fill it{" "}
                   </span>
                 </Alert>
               )}
