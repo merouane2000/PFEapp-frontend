@@ -1,24 +1,20 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { AppContext } from "../../../Contexts/AppContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import AddIcon from "@mui/icons-material/Add";
-import DialogTitle from "@mui/material/DialogTitle";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CustomClassDiagramDialog from "../../../compoments/CustomClassDiagramDialog";
+import Chip from '@mui/material/Chip';
 
 function SecondPage() {
-  const { setStep, userData, setUserData, tableContent, setTableContent } =
+  const { setStep, userData, tableContent } =
     useContext(AppContext);
-  const [data, setData] = useState([]);
-  const [allData, setAllData] = useState([]);
+
+    const handleClickchip= () => {
+      console.info('You clicked the Chip.');
+    };
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -38,35 +34,11 @@ function SecondPage() {
     handleClick();
   }, []);
 
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const [openDialog, setopenDialog] = React.useState(false);
-
-  const handleClickopenDialog = () => {
-    setopenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setopenDialog(false);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
   };
-  const handelAddAttribute = () => {
-    if (data !== null) {
-      setAllData([...allData, data]);
-      setData([]);
-    }
-  };
-  const handleDeleteAttribute = (index) => {
-    const deleteData = [...allData];
-    deleteData.splice(index, 1);
-    setAllData(deleteData);
-  };
+
+ 
 
   return (
     <div>
@@ -80,183 +52,10 @@ function SecondPage() {
               alignItems="center"
               style={{ rowGap: "5px" }}
             >
+             
+            <CustomClassDiagramDialog/>
+
               <Grid md={4}>
-                <button className="my-button" onClick={handleClickopenDialog}>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    style={{ paddingTop: "0px", columnGap: "25px" }}
-                  >
-                    <Grid style={{ paddingTop: "3px" }}>Add Your Tables</Grid>
-                    <Grid>
-                      <AddCircleOutlineIcon />
-                    </Grid>
-                  </Grid>
-                </button>
-              </Grid>
-              <Dialog open={openDialog} onClose={handleCloseDialog} >
-                <Grid container justifyContent="center" direction="column">
-                  <Grid container justifyContent="center">
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                        fontFamily: "Outfit",
-                      }}
-                    >
-                      Table Name{" "}
-                    </span>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <input
-                      onChange={handleChange}
-                      className="input-Dialog"
-                      label="tableName"
-                      type="text"
-                      name="tableName"
-                      required
-                      placeholder="Enter your table name"
-                    />
-                  </Grid>
-                  <hr
-                    style={{
-                      width: "500px",
-                      height: "1px",
-                      background: "black",
-                    }}
-                  />
-                </Grid>
-
-                <Grid container direction="row" justifyContent="space-around">
-                  <div>
-                    <Grid container direction="column">
-                      <span>Visibility</span>
-                      <select
-                        className="input-Dialog-littel"
-                        value={data.visibilty}
-                        onChange={handleChange}
-                        name="attributeVisibilty"
-                      >
-                        <option value="+">Public (+)</option>
-                        <option value="-">Private (-)</option>
-                        <option value="#">Protected (#)</option>
-                      </select>
-                    </Grid>
-                  </div>
-                  <div>
-                    <Grid container direction="column">
-                      <span>Attribute name</span>
-                      <input
-                        onChange={handleChange}
-                        className="input-Dialog-littel-nrml"
-                        label="attributename"
-                        type="text"
-                        name="attributeName"
-                        required
-                        placeholder="Attribute name"
-                      />
-                    </Grid>
-                  </div>
-                  <div>
-                    <Grid container direction="column">
-                      <span>Type</span>
-                      <select
-                        className="input-Dialog-littel"
-                        onChange={handleChange}
-                        value={data.type}
-                        name="attributeType"
-                      >
-                        <option value="Integer">Integer</option>
-                        <option value="String">String</option>
-                        <option value="Boolean">Boolean</option>
-                        <option value="Float">Float</option>
-                        <option value="Date/Time">Date/Time</option>
-                        <option value="Object">Object</option>
-                        <option value="Enumeration">Enumeration</option>
-                      </select>
-                    </Grid>
-                  </div>
-                  <div style={{ paddingTop: "20px" }}>
-                    <button
-                      className="logout-button"
-                      style={{ height: "32px" }}
-                      onClick={handelAddAttribute}
-                    >
-                      <Grid
-                        container
-                        justifyContent="center"
-                        style={{ paddingTop: "19px", paddingLeft: "20px" }}
-                        spacing={2}
-                      >
-                        <Grid>Add</Grid>
-                        <Grid paddingLeft="5px">
-                          <AddIcon fontSize="small" />
-                        </Grid>
-                      </Grid>
-                    </button>
-                  </div>
-                </Grid>
-                <DialogContent>
-                  <div>
-                    <ol>
-                      {allData.map((data, index) => (
-                        <Grid
-                          container
-                          direction="row"
-                          justifyContent="space-around"
-                        >
-                         
-                            <li key={index}>
-                              <div>
-                                <Grid>
-
-                                <span>
-                                  {data.attributeVisibilty +
-                                    " " +
-                                    data.attributeName +
-                                    " : " +
-                                    data.attributeType}{" "}
-                                </span>
-                                </Grid>
-                              </div>
-                              <div>
-                                <button
-                                  className="logout-button"
-                                  onClick={() => handleDeleteAttribute(index)}
-                                >
-                                  <Grid
-                                    container
-                                    justifyContent="center"
-                                    style={{
-                                      paddingTop: "19px",
-                                      paddingLeft: "20px",
-                                    }}
-                                    spacing={2}
-                                  >
-                                    <Grid>Delete</Grid>
-                                    <Grid paddingLeft="3px">
-                                      <DeleteIcon fontSize="small" />
-                                    </Grid>
-                                  </Grid>
-                                </button>
-                              </div>
-                            </li>
-                      
-                        </Grid>
-                      ))}
-                    </ol>
-                   
-                  </div>
-                </DialogContent>
-                <DialogActions>
-                  <button onClick={handleCloseDialog}>Cancel</button>
-                  <button onClick={handleCloseDialog}>Subscribe</button>
-                </DialogActions>
-              </Dialog>
-
-              {/* <Grid md={4}>
                   <input
                     className="input-log-in"
                     label="ModelName"
@@ -307,9 +106,9 @@ function SecondPage() {
                     <option value="Source Model">Source Model</option>
                     <option value="Target Model">Target Model</option>
                   </select>
-                </Grid> */}
+                </Grid>
             </Grid>
-            {/* <div style={{ paddingTop: "10px" }}>
+            <div style={{ paddingTop: "10px" }}>
                 <Grid
                   container
                   direction="row"
@@ -364,7 +163,8 @@ function SecondPage() {
                     />
                   </Grid>
                 </Grid>
-                      </div>*/}
+                <Chip label={tableContent.name} variant="outlined" onClick={handleClickchip} />
+                      </div>
             <div style={{ paddingTop: "40px" }}>
               <Grid
                 container
@@ -421,7 +221,18 @@ function SecondPage() {
               open={open}
               onClose={handleClose}
             >
-              {typeof userData.tableNumber !== typeof 5 ? (
+              {userData.tableNumber != null ? (
+                <Alert
+                  onClose={handleClose}
+                  severity="info"
+                  sx={{ width: "100%" }}
+                >
+                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+                    {" "}
+                    You have {userData.tableNumber} Table to fill it{" "}
+                  </span>
+                </Alert>
+              ) : (
                 <Alert
                   onClose={handleClose}
                   severity="warning"
@@ -431,17 +242,6 @@ function SecondPage() {
                     {" "}
                     An initial value must be given to the table number text
                     field{" "}
-                  </span>
-                </Alert>
-              ) : (
-                <Alert
-                  onClose={handleClose}
-                  severity="info"
-                  sx={{ width: "100%" }}
-                >
-                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-                    {" "}
-                    You have {userData.tableNumber} Table to fill it{" "}
                   </span>
                 </Alert>
               )}

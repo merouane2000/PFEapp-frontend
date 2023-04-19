@@ -151,9 +151,9 @@ input[type=checkbox]:checked {
   font-family: Outfit;
   font-weight: 600;
   font-size: 15px;
-  width: 250px;
-  height: 30px;
-  padding-left: 20px;
+  width: 165px;
+  height: 24px;
+  padding-left: 15px;
 
 }
 .input-Dialog-littel{
