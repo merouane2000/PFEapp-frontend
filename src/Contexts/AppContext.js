@@ -7,16 +7,24 @@ const AppContextProvider = (props) => {
   const [currentStep, setStep] = useState(1);
   const [userData, setUserData] = useState([]);
   const [tableContent, setTableContent] = useState([]);
+  const [entityContent, setEntityContent] = useState([]);
+  const [entitiesContent, setEntitiesContent] = useState([]);
   const [finalData, setFinalData] = useState([]);
 
  function submitData(){
 console.log(userData)
  }
+
+ function submitEntityData() {
+  setEntitiesContent([...entitiesContent, entityContent]);
+  setEntityContent([]);
+  }
   return (
     <div>
       <AppContext.Provider
        value={{
         currentStep,
+        entitiesContent,
         setStep,
         userData,
         setUserData,
@@ -24,7 +32,12 @@ console.log(userData)
         setFinalData,
         submitData,
         tableContent,
-        setTableContent
+        setTableContent,
+        entityContent,
+        setEntityContent,
+        submitEntityData,
+        entitiesContent, 
+        setEntitiesContent
       }}
       >  
       {props.children} 

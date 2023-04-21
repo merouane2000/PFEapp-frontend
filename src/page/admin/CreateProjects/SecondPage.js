@@ -3,47 +3,26 @@ import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { AppContext } from "../../../Contexts/AppContext";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import CustomClassDiagramDialog from "../../../compoments/CustomClassDiagramDialog";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
+import CustomRationalDiagramDialog from "../../../compoments/CustomRationalDiagramDialog";
+import CustomChip from "../../../compoments/CustomChip";
 
 function SecondPage() {
-  const { setStep, userData, tableContent } =
-    useContext(AppContext);
+  const { setStep, tableContent, entitiesContent } = useContext(AppContext);
 
-    const handleClickchip= () => {
-      console.info('You clicked the Chip.');
-    };
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-  const [open, setOpen] = React.useState(false);
-  const handleClick = () => {
-    setOpen(true);
+  const handleClickchip = () => {
+    console.info(entitiesContent);
   };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    handleClick();
-  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
- 
-
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit}>
+<CustomChip/>
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -52,119 +31,115 @@ function SecondPage() {
               alignItems="center"
               style={{ rowGap: "5px" }}
             >
-             
-            <CustomClassDiagramDialog/>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                columnGap={7}
+              >
+                <Grid>
+                  <CustomClassDiagramDialog />
+                </Grid>
+                <Grid>
+                  <CustomRationalDiagramDialog />
+                </Grid>
+              </Grid>
 
               <Grid md={4}>
-                  <input
-                    className="input-log-in"
-                    label="ModelName"
-                    type="ModelName"
-                    name="ModelName"
-                    required
-                    placeholder="Enter Model Name"
-                  />
-                </Grid>
-                <Grid md={4}>
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      paddingRight: "275px",
-                    }}
-                  >
-                    Model Diagram{" "}
-                  </span>
-                </Grid>
-                <Grid md={4}>
-                  <select className="Select-input">
-                    <option value="Entity Relationship Diagram">
-                      Entity Relationship Diagram
-                    </option>
-                    <option value="Class Diagram (UML)">
-                      Class Diagram (UML)
-                    </option>
-                  </select>
-                </Grid>
-                <Grid md={4}>
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      paddingRight: "300px",
-                    }}
-                  >
-                    Model Type{" "}
-                  </span>
-                </Grid>
-                <Grid md={4}>
-                  <select className="Select-input">
-                    <option value="Source Model">Source Model</option>
-                    <option value="Target Model">Target Model</option>
-                  </select>
-                </Grid>
+                <input
+                  className="input-log-in"
+                  label="ModelName"
+                  type="ModelName"
+                  name="ModelName"
+                  required
+                  placeholder="Enter Model Name"
+                />
+              </Grid>
+              <Grid md={4}>
+                <span
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 400,
+                    color: "#393E46",
+                    textAlign: "center",
+                    paddingRight: "275px",
+                  }}
+                >
+                  Model Diagram{" "}
+                </span>
+              </Grid>
+              <Grid md={4}>
+                <select className="Select-input">
+                  <option value="Entity Relationship Diagram">
+                    Entity Relationship Diagram
+                  </option>
+                  <option value="Class Diagram (UML)">
+                    Class Diagram (UML)
+                  </option>
+                </select>
+              </Grid>
             </Grid>
             <div style={{ paddingTop: "10px" }}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  rowGap={20}
-                  columnGap={8.75}
-                >
-                  <Grid direction="column">
-                    <Grid>
-                      <span
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 400,
-                          color: "#393E46",
-                          textAlign: "center",
-                        }}
-                      >
-                        Table Number
-                      </span>
-                    </Grid>
-  
-                    <input
-                      className="input-create"
-                      label="table-number"
-                      type="text"
-                      name="table-number"
-                      required
-                      placeholder="Enter number"
-                    />
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                rowGap={20}
+                columnGap={8.75}
+              >
+                <Grid direction="column">
+                  <Grid>
+                    <span
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 400,
+                        color: "#393E46",
+                        textAlign: "center",
+                      }}
+                    >
+                      Table Number
+                    </span>
                   </Grid>
-                  <Grid direction="column">
-                    <Grid>
-                      <span
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 400,
-                          color: "#393E46",
-                          textAlign: "center",
-                        }}
-                      >
-                        Assosiation Number
-                      </span>
-                    </Grid>
-  
-                    <input
-                      className="input-create"
-                      label="assosiation-number"
-                      type="text"
-                      name="assosiation-number"
-                      required
-                      placeholder="Enter number"
-                    />
-                  </Grid>
+
+                  <input
+                    className="input-create"
+                    label="table-number"
+                    type="text"
+                    name="table-number"
+                    required
+                    placeholder="Enter number"
+                  />
                 </Grid>
-                <Chip label={tableContent.name} variant="outlined" onClick={handleClickchip} />
-                      </div>
+                <Grid direction="column">
+                  <Grid>
+                    <span
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 400,
+                        color: "#393E46",
+                        textAlign: "center",
+                      }}
+                    >
+                      Assosiation Number
+                    </span>
+                  </Grid>
+
+                  <input
+                    className="input-create"
+                    label="assosiation-number"
+                    type="text"
+                    name="assosiation-number"
+                    required
+                    placeholder="Enter number"
+                  />
+                </Grid>
+              </Grid>
+              <Chip
+                label={tableContent.name}
+                variant="outlined"
+                onClick={handleClickchip}
+              />
+            </div>
             <div style={{ paddingTop: "40px" }}>
               <Grid
                 container
@@ -216,38 +191,7 @@ function SecondPage() {
                 </button>
               </Grid>
             </div>
-            <Snackbar
-              style={{ borderRadius: "30px" }}
-              open={open}
-              onClose={handleClose}
-            >
-              {userData.tableNumber != null ? (
-                <Alert
-                  onClose={handleClose}
-                  severity="info"
-                  sx={{ width: "100%" }}
-                >
-                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-                    {" "}
-                    You have {userData.tableNumber} Table to fill it{" "}
-                  </span>
-                </Alert>
-              ) : (
-                <Alert
-                  onClose={handleClose}
-                  severity="warning"
-                  sx={{ width: "100%" }}
-                >
-                  <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-                    {" "}
-                    An initial value must be given to the table number text
-                    field{" "}
-                  </span>
-                </Alert>
-              )}
-            </Snackbar>
           </div>
-        </form>
       </div>
     </div>
   );

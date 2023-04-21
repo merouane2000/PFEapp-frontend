@@ -80,13 +80,13 @@ function CustomClassDiagramDialog() {
   return (
     <div>
       <Grid md={4}>
-        <button className="my-button" onClick={handleClickopenDialog}>
+        <button className="targe-source-buttom" onClick={handleClickopenDialog}>
           <Grid
             container
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>Add Your Tables</Grid>
+            <Grid style={{ paddingTop: "3px" }}>source model</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>

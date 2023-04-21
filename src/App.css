@@ -183,3 +183,23 @@ input[type=checkbox]:checked {
   height: 24px;
   padding-left: 3px;
 }
+.targe-source-buttom{
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.5s ease;
+}
+.targe-source-buttom:hover {
+  background-color: #393E46;
+  color: #eeeeee;
+  transform: scale(1.04);
+
+}

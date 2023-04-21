@@ -1,15 +1,50 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { AppContext } from "../../../Contexts/AppContext";
+import axios from "axios";
+const InitialValues = {
+  modelName: "",
+  diagramType: "",
+  targetQuality: "",
+  UsedApproach: "",
+};
 
 function FirstPage() {
-  const { setStep, userData, setUserData } = useContext(AppContext);
+  const [values, setValues] = useState(InitialValues);
+  const { setStep } = useContext(AppContext);
+  const sessionUser_id = sessionStorage.getItem("userID");
+
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmitAndNext = async (e) => {
+    e.preventDefault();
+    const tmpObj = { ...values };
+    tmpObj.user_id = sessionUser_id;
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/metamodel-create",
+        {
+          data: tmpObj,
+        }
+      );
+      if (response.data.isCreate) {
+        setStep(2);
+        sessionStorage.setItem("MetaModelID", response.data.MetaModel_ID)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <div>
-        <form>
+        <form onSubmit={handleSubmitAndNext}>
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -33,14 +68,9 @@ function FirstPage() {
               </Grid>
               <Grid md={4}>
                 <input
-                  value={userData["ModelName"]}
-                  onChange={(e) => {
-                    setUserData({ ...userData, ModelName: e.target.value });
-                  }}
                   className="input-log-in"
-                  label="ModelName"
-                  type="ModelName"
-                  name="ModelName"
+                  onChange={handleChange}
+                  name="modelName"
                   required
                   placeholder="Enter Model Name"
                 />
@@ -55,19 +85,15 @@ function FirstPage() {
                     paddingRight: "150px",
                   }}
                 >
-                 Choose Meta-Model Diagram{" "}
+                  Choose Meta-Model Diagram{" "}
                 </span>
               </Grid>
               <Grid md={4}>
                 <select
                   className="Select-input"
-                  value={userData["typeOfMetaModelDiagram"]}
-                  onChange={(e) => {
-                    setUserData({
-                      ...userData,
-                      "typeOfMetaModelDiagram": e.target.value,
-                    });
-                  }}
+                  onChange={handleChange}
+                  name="diagramType"
+                  required
                 >
                   <option value="isEntityRelationshipDiagram">
                     Entity Relationship Diagram
@@ -82,28 +108,20 @@ function FirstPage() {
                     fontWeight: 400,
                     color: "#393E46",
                     textAlign: "center",
-                    paddingRight: "190px",
+                    paddingRight: "285px",
                   }}
                 >
-                 Choose Meta-Model Type {" "}
+                  Target Quality{" "}
                 </span>
               </Grid>
               <Grid md={4}>
-                <select
-                  className="Select-input"
-                  value={userData["typeOfMetaModel"]}
-                  onChange={(e) => {
-                    setUserData({
-                      ...userData,
-                      "typeOfMetaModel": e.target.value,
-                    });
-                  }}
-                >
-                  <option value="SM">
-                  Source Model (SM)
-                  </option>
-                  <option value="TM">Target Model (TM)</option>
-                </select>
+                <input
+                  className="input-log-in"
+                  onChange={handleChange}
+                  name="targetQuality"
+                  required
+                  placeholder="Enter Quality"
+                />
               </Grid>
             </Grid>
             <div style={{ paddingTop: "10px" }}>
@@ -124,52 +142,30 @@ function FirstPage() {
                         textAlign: "center",
                       }}
                     >
-                      Table Number
+                      Used approach
                     </span>
                   </Grid>
 
-                  <input
-                    className="input-create"
-                    value={userData["tableNumber"]}
-                    onChange={(e) => {
-                      setUserData({ ...userData, tableNumber: e.target.value });
-                    }}
-                    label="table-number"
-                    type="text"
-                    name="tableNumber"
+                  <select
+                    className="Select-input"
+                    onChange={handleChange}
+                    name="UsedApproach"
                     required
-                    placeholder="Enter number"
-                  />
-                </Grid>
-                <Grid direction="column">
-                  <Grid>
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Assosiation Number
-                    </span>
-                  </Grid>
-
-                  <input
-                    className="input-create"
-                    value={userData["assosiationNumber"]}
-                    onChange={(e) => {
-                      setUserData({
-                        ...userData,
-                        assosiationNumber: e.target.value,
-                      });
-                    }}
-                    label="assosiation-number"
-                    type="text"
-                    name="assosiationNumber"
-                    required
-                    placeholder="Enter number"
-                  />
+                  >
+                    <option value="/">--Select--</option>
+                    <option value="varroApproach">Varro Approach</option>
+                    <option value=" WimmerApproach"> Wimmer Approach</option>
+                    <option value="StrommerApproach">Strommer Approach</option>
+                    <option value=" KassentiniApproach">
+                      Kassentini Approach
+                    </option>
+                    <option value=" BaloghApproach">Balogh Approach </option>
+                    <option value="GarciaApproach">Garcia Approach</option>
+                    <option value="DeloquesApproach">Deloques Approach</option>
+                    <option value="SaadaApproach">Saada Approach</option>
+                    <option value="FaunesApproach">Faunes Approach</option>
+                    <option value="BakiApproach">Baki Approach</option>
+                  </select>
                 </Grid>
               </Grid>
             </div>
@@ -180,12 +176,7 @@ function FirstPage() {
                 justifyContent="center"
                 style={{ columnGap: "50px" }}
               >
-                <button
-                  className="logout-button"
-                  onClick={() => {
-                    setStep(2);
-                  }}
-                >
+                <button className="logout-button"  type="submit">
                   <Grid
                     container
                     justifyContent="center"
