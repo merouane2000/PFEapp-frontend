@@ -203,3 +203,19 @@ input[type=checkbox]:checked {
   transform: scale(1.04);
 
 }
+.textarea{
+  background-color: #EEEEEE;
+  color: #EEEEEE;
+  border-radius: 35px;
+  border: 3px solid #222831;
+  color: #393E46;
+  font-family: Outfit;
+  font-weight: 600;
+  font-size: 15px;
+  width: 391px;
+  height: 143px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+}

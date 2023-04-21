@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Chip from "@mui/material/Chip";
 import { AppContext } from "../Contexts/AppContext";
+import { json } from "react-router-dom";
 
 
 function CustomChip() {
@@ -13,15 +14,20 @@ function CustomChip() {
   const {entitiesContent} = useContext(AppContext)
 
 
+  const clone = [...entitiesContent]
+            clone.shift()
+
+      
+
   const [openDialog, setopenDialog] = React.useState(false);
  
 
   const handleClickopenDialog = () => {
-    setopenDialog(true);
+    console.log(entitiesContent)
+        setopenDialog(true);
   };
 
   const handleCloseDialogAndCancelReq = () => {
-    console.log(entitiesContent)
     setopenDialog(false);
   };
 
@@ -44,20 +50,20 @@ function CustomChip() {
 //     return chips;
 //   };
 
-//   const listAttribute = (dataAttr) => {
-//     const attributes = [];
+  // const listAttribute = (dataAttr) => {
+  //   const attributes = [];
    
-//     if (dataAttr.attributes !== null) {
-//         entitiesContent.map((data) => {
-//         attributes.push(
-//             <ol>
-//                 <li>data.attributeName +" "+ data.attributeType</li>
-//             </ol>
-//         );
-//       });
-//     }
-//     return attributes;
-//   };
+  //   if (dataAttr.attributes !== null) {
+  //       entitiesContent.map((data) => {
+  //       attributes.push(
+  //           <ol>
+  //               <li>data.attributeName +" "+ data.attributeType</li>
+  //           </ol>
+  //       );
+  //     });
+  //   }
+  //   return attributes;
+  // };
   
 //   const chips = listTable();
 //   const  attr = listAttribute()
@@ -69,7 +75,7 @@ function CustomChip() {
       </Grid>
 
     
-    {    entitiesContent.map((data) => (
+    {clone.map((data) => (
                 
             <Chip
                         label={<span>{data.name}</span>}
@@ -80,7 +86,7 @@ function CustomChip() {
                 ))
            }
           
-            {entitiesContent.map((data) => (
+            {clone.map((data) => (
                
           <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
           <Grid container justifyContent="center" direction="column">
@@ -124,7 +130,7 @@ function CustomChip() {
           </Grid>
           <DialogContent>
             <div>
-          {/* {listAttribute(data)} */}
+          {}
             </div>
             <hr
               style={{
@@ -150,7 +156,7 @@ function CustomChip() {
               <div>
                 <Grid container direction="column">
                   <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                  data.cardinality
+                {data.cardinality}
                   </span>
                 
                 </Grid>

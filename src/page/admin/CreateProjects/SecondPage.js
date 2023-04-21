@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -7,22 +7,55 @@ import CustomClassDiagramDialog from "../../../compoments/CustomClassDiagramDial
 import Chip from "@mui/material/Chip";
 import CustomRationalDiagramDialog from "../../../compoments/CustomRationalDiagramDialog";
 import CustomChip from "../../../compoments/CustomChip";
+import axios from "axios";
+
+const InitialValues = {
+  example: "",
+  description: "",
+};
 
 function SecondPage() {
   const { setStep, tableContent, entitiesContent } = useContext(AppContext);
+  const metamodel_ID = sessionStorage.getItem("MetaModelID")
 
-  const handleClickchip = () => {
-    console.info(entitiesContent);
+  // const handleClickchip = () => {
+  //   console.info(entitiesContent);
+  // };
+  const [values, setValues] = useState(InitialValues);
+
+
+  const handelUpdate = async() => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/metamodel-update",
+        {
+          metaModel_id: metamodel_ID,
+          descriptionModel:values.description,
+          exampleModel:values.example,
+
+        }
+      );
+      
+        console.log(response.data)
+
+
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(values)
+    // setStep(3);
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
     <div>
       <div>
-<CustomChip/>
+{/* <CustomChip/> */}
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -30,29 +63,29 @@ function SecondPage() {
               justify="center"
               alignItems="center"
               style={{ rowGap: "5px" }}
-            >
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                columnGap={7}
-              >
-                <Grid>
-                  <CustomClassDiagramDialog />
-                </Grid>
-                <Grid>
-                  <CustomRationalDiagramDialog />
-                </Grid>
-              </Grid>
 
+            >
+                <Grid md={4}>
+                <span
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 400,
+                    color: "#393E46",
+                    textAlign: "center",
+                    paddingRight: "275px",
+                  }}
+                >
+                  The Example{" "}
+                </span>
+              </Grid>
               <Grid md={4}>
                 <input
+                style={{height:"39"}}
                   className="input-log-in"
-                  label="ModelName"
-                  type="ModelName"
-                  name="ModelName"
+                  name="example"
+                  onChange={handleChange}
                   required
-                  placeholder="Enter Model Name"
+                  placeholder="Enter your example"
                 />
               </Grid>
               <Grid md={4}>
@@ -65,81 +98,41 @@ function SecondPage() {
                     paddingRight: "275px",
                   }}
                 >
-                  Model Diagram{" "}
+                  The Description  {" "}
                 </span>
               </Grid>
               <Grid md={4}>
-                <select className="Select-input">
-                  <option value="Entity Relationship Diagram">
-                    Entity Relationship Diagram
-                  </option>
-                  <option value="Class Diagram (UML)">
-                    Class Diagram (UML)
-                  </option>
-                </select>
+                <textarea  
+                placeholder="Describe your Target/source Model"
+                onChange={handleChange}
+                name="description"
+                className="textarea"
+                />
+  
               </Grid>
-            </Grid>
-            <div style={{ paddingTop: "10px" }}>
+              <div style={{paddingTop:"15px"}}>
+
               <Grid
                 container
                 direction="row"
                 justifyContent="center"
-                rowGap={20}
-                columnGap={8.75}
+                columnGap={8.5}
               >
-                <Grid direction="column">
-                  <Grid>
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Table Number
-                    </span>
-                  </Grid>
-
-                  <input
-                    className="input-create"
-                    label="table-number"
-                    type="text"
-                    name="table-number"
-                    required
-                    placeholder="Enter number"
-                  />
+                
+                <Grid>
+                  <CustomClassDiagramDialog />
                 </Grid>
-                <Grid direction="column">
-                  <Grid>
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Assosiation Number
-                    </span>
-                  </Grid>
-
-                  <input
-                    className="input-create"
-                    label="assosiation-number"
-                    type="text"
-                    name="assosiation-number"
-                    required
-                    placeholder="Enter number"
-                  />
+                <Grid>
+                  <CustomRationalDiagramDialog />
                 </Grid>
               </Grid>
-              <Chip
-                label={tableContent.name}
-                variant="outlined"
-                onClick={handleClickchip}
-              />
-            </div>
+              </div>
+
+            
+            
+        
+            </Grid>
+          
             <div style={{ paddingTop: "40px" }}>
               <Grid
                 container
@@ -170,15 +163,17 @@ function SecondPage() {
                 </button>
                 <button
                   className="logout-button"
-                  onClick={() => {
-                    setStep(3);
-                  }}
+                  onClick={handelUpdate}
+                
+                 
+                
                 >
                   <Grid
                     container
                     justifyContent="center"
                     style={{ paddingTop: "20px", paddingLeft: "25px" }}
                     spacing={2}
+                 
                   >
                     <Grid>Next</Grid>
                     <Grid>

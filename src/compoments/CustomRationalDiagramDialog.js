@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Dialog from "@mui/material/Dialog";
@@ -18,7 +18,14 @@ function CustomRationalDiagramDialog() {
   const [values, setValues] = useState(InitialValues);
   const [attribute, setAttribute] = useState([]);
   const [attributeSet, setAttributeSet] = useState([]);
-  const {entityContent, setEntityContent,entitiesContent, setEntitiesContent} = useContext(AppContext)
+
+  const metaModel_id = sessionStorage.getItem("MetaModelID")
+  const {
+    entityContent,
+    setEntityContent,
+    entitiesContent,
+    setEntitiesContent,
+  } = useContext(AppContext);
 
   const handleChange = (e) => {
     setValues({
@@ -34,64 +41,55 @@ function CustomRationalDiagramDialog() {
   };
   const handelAddAttribute = () => {
     if (attribute !== null) {
-        setAttributeSet([...attributeSet, attribute]);
-        setAttribute([]);
+      setAttributeSet([...attributeSet, attribute]);
+      setAttribute([]);
+    }
+  }
+  useEffect(() => {
+    console.log(entityContent);
+  }, [entityContent]);
+
+  useEffect(() => {
+    console.log(entitiesContent);
+  }, [entityContent,entitiesContent]);
+
+  const handleSubmitAndNext = async () => {
+    const contexObj = {
+      name: values.entityName,
+      cardinality: values.cardinalty,
+      attributes: attributeSet,
+    };
+    setEntityContent(contexObj);
+    setEntitiesContent([...entitiesContent, entityContent])
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/entity-create",
+        {
+          attributeData: attributeSet,
+          name:values.entityName,
+          cardinality:values.cardinalty,
+          metaModel_ID: metaModel_id
+
+        }
+      );
+      if (response.data.isCreate) {
+        console.log("succuss")
+
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
-  const handleSubmitAndNext = async () => {
-      const contexObj ={
-        name:values.entityName,
-        cardinality:values.cardinalty,
-        attributes:attributeSet
-      }
-      setEntityContent({...contexObj})
-      setEntitiesContent([...entitiesContent, entityContent]);
-
-      try {
-        const response = await axios.post(
-          "http://localhost:4000/entity-create",
-          {
-            attributeData: attributeSet,
-            name:values.entityName,
-            cardinality:values.cardinalty,
-          }
-        );
-        console.log(response.data)
-        if (response.data.isCreate) {
-          sessionStorage.setItem("EntityID", response.data.entity_ID)
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
 
   const [openDialog, setopenDialog] = React.useState(false);
- 
 
   const handleClickopenDialog = () => {
     setopenDialog(true);
   };
 
-
-
   const handleCloseDialogAndCancelReq = () => {
     setopenDialog(false);
-  };
-
-  const handleCloseDialogAndSubmite = () => {
-    console.log(values)
-    console.log(attributeSet)
-    // const obj = {
-    //   allDataAttribute,
-    //   ...allDataMethods,
-    // };
-    // obj.name = nameTable;
-    // obj.cardinality = cardinalityTable;
-
-    // setTableContent({ ...obj });
-    // console.log(tableContent);
-    // setopenDialog(false);
   };
 
   const handleDeleteAttribute = (index) => {
@@ -99,7 +97,6 @@ function CustomRationalDiagramDialog() {
     deleteDataAtrribute.splice(index, 1);
     setAttributeSet(deleteDataAtrribute);
   };
-
 
   return (
     <div>
@@ -110,9 +107,7 @@ function CustomRationalDiagramDialog() {
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>
-             Target model
-            </Grid>
+            <Grid style={{ paddingTop: "3px" }}>Target model</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>
@@ -153,9 +148,6 @@ function CustomRationalDiagramDialog() {
           />
         </Grid>
 
-
-
-
         <Grid container justifyContent="center">
           <span
             style={{
@@ -179,9 +171,9 @@ function CustomRationalDiagramDialog() {
             <Grid container direction="column">
               <span>Attribute name</span>
               <input
-               className="input-Dialog-littel-nrml"
-               onChange={ handleChangeAttribute }
-                 name="attributeName"
+                className="input-Dialog-littel-nrml"
+                onChange={handleChangeAttribute}
+                name="attributeName"
                 required
                 placeholder="Attribute name"
               />
@@ -234,9 +226,7 @@ function CustomRationalDiagramDialog() {
                 <li key={index}>
                   <Grid container direction="row" justifyContent="space-evenly">
                     <span style={{ paddingTop: "7px" }}>
-                      {data.attributeName +
-                        " : " +
-                        data.attributeType}{" "}
+                      {data.attributeName + " : " + data.attributeType}{" "}
                     </span>
 
                     <button
@@ -288,11 +278,11 @@ function CustomRationalDiagramDialog() {
             <div>
               <Grid container direction="column">
                 <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                Cardinalty
+                  Cardinalty
                 </span>
                 <select
                   className="input-Dialog-littel"
-                onChange={handleChange}
+                  onChange={handleChange}
                   name="cardinalty"
                 >
                   <option value="/">--Select--</option>
@@ -314,16 +304,13 @@ function CustomRationalDiagramDialog() {
             Cancel
           </button>
           <button
-        
-        onClick={handleSubmitAndNext}
+            onClick={handleSubmitAndNext}
             style={{ height: "32px" }}
             className="logout-button"
           >
             Submit
           </button>
         </DialogActions>
-
-   
       </Dialog>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Dialog from "@mui/material/Dialog";
@@ -7,9 +7,11 @@ import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AppContext } from "../Contexts/AppContext";
+import axios from "axios";
 
 function CustomClassDiagramDialog() {
-    const { tableContent, setTableContent } =useContext(AppContext);
+  const { tableContent, setTableContent, finalData, setFinalData } =
+    useContext(AppContext);
   const [DataAttribute, setDataAttribute] = useState([]);
   const [allDataAttribute, setAllDataAttribute] = useState([]);
   const [dataMethods, setDataMethods] = useState([]);
@@ -17,6 +19,7 @@ function CustomClassDiagramDialog() {
   const [nameTable, setNameTable] = useState("");
   const [cardinalityTable, setcardinalityTable] = useState("");
   const [openDialog, setopenDialog] = React.useState(false);
+  const metaModel_id = sessionStorage.getItem("MetaModelID")
   const handleChange = (e) => {
     setDataAttribute({
       ...DataAttribute,
@@ -37,21 +40,42 @@ function CustomClassDiagramDialog() {
     setopenDialog(false);
     setAllDataMethods([]);
     setAllDataAttribute([]);
-    setNameTable("")
-    setcardinalityTable("")
+    setNameTable("");
+    setcardinalityTable("");
   };
 
-  const handleCloseDialogAndSubmite = () => {
+
+  const handleCloseDialogAndSubmite = async() => {
     const obj = {
-         allDataAttribute,
-         ...allDataMethods
-      };
-      obj.name = nameTable
-      obj.cardinality = cardinalityTable
-      
-      setTableContent({...obj})
-      console.log(tableContent)
-    setopenDialog(false);
+      allDataAttribute,
+      ...allDataMethods,
+    };
+    obj.name = nameTable;
+    obj.cardinality = cardinalityTable;
+
+    setTableContent(obj);
+    setFinalData([...finalData, tableContent]);
+    console.log(finalData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/table-create",
+        {
+          attributes: allDataAttribute,
+          methodes: allDataMethods,
+          name:nameTable,
+          cardinality:cardinalityTable,
+          metaModel_ID: metaModel_id
+
+        }
+      );
+      if (response.data.isCreate) {     
+        console.log(response)
+
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handelAddAttribute = () => {

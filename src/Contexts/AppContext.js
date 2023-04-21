@@ -14,11 +14,12 @@ const AppContextProvider = (props) => {
  function submitData(){
 console.log(userData)
  }
-
+ 
  function submitEntityData() {
   setEntitiesContent([...entitiesContent, entityContent]);
   setEntityContent([]);
   }
+  
   return (
     <div>
       <AppContext.Provider
