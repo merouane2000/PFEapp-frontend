@@ -110,7 +110,7 @@ function CustomClassDiagramDialog() {
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>source model</Grid>
+            <Grid style={{ paddingTop: "3px" }}>Add Table</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>

@@ -107,7 +107,7 @@ function CustomRationalDiagramDialog() {
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>Target model</Grid>
+            <Grid style={{ paddingTop: "3px" }}>Add Entity</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>
