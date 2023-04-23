@@ -36,7 +36,6 @@ function SecondPage() {
         }
       );
       if(response.data.acknowledged){
-        console.log(response.data)
         setStep(3);
       }
     } catch (error) {

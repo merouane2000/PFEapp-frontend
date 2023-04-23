@@ -32,12 +32,12 @@ console.log(userData)
         finalData,
         setFinalData,
         submitData,
+        entitiesContent, 
         tableContent,
+        setEntityContent,
         setTableContent,
         entityContent,
-        setEntityContent,
         submitEntityData,
-        entitiesContent, 
         setEntitiesContent
       }}
       >  

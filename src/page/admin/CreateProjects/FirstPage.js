@@ -22,29 +22,30 @@ function FirstPage() {
     });
   };
   const handleSubmitAndNext = async (e) => {
-    e.preventDefault();
-    const tmpObj = { ...values };
-    tmpObj.user_id = sessionUser_id;
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/metamodel-create",
-        {
-          data: tmpObj,
-        }
-      );
-      if (response.data.isCreate) {
-        setStep(2);
-        sessionStorage.setItem("MetaModelID", response.data.MetaModel_ID)
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    setStep(2);
+    // e.preventDefault();
+    // const tmpObj = { ...values };
+    // tmpObj.user_id = sessionUser_id;
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:4000/metamodel-create",
+    //     {
+    //       data: tmpObj,
+    //     }
+    //   );
+    //   if (response.data.isCreate) {
+    //     setStep(2);
+    //     sessionStorage.setItem("MetaModelID", response.data.MetaModel_ID)
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmitAndNext}>
+        {/* <form onSubmit={handleSubmitAndNext}> */}
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -176,7 +177,8 @@ function FirstPage() {
                 justifyContent="center"
                 style={{ columnGap: "50px" }}
               >
-                <button className="logout-button"  type="submit">
+                <button className="logout-button"  type="submit"
+                onClick={()=>{setStep(2)}}>
                   <Grid
                     container
                     justifyContent="center"
@@ -195,7 +197,7 @@ function FirstPage() {
               </Grid>
             </div>
           </div>
-        </form>
+        {/* </form> */}
       </div>
     </div>
   );
