@@ -4,9 +4,43 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { AppContext } from "../../../Contexts/AppContext";
 import axios from "axios";
-import CustomChip from "../../../compoments/CustomChip";
+import Chip from "@mui/material/Chip";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+import { useNavigate } from "react-router-dom";
+
+const EntityInitialValues = {
+  AssociationFrom: "",
+  AssociationTo: "",
+  AssociationName: "",
+};
+const tableInitialValues = {
+  RelationShipFrom: "",
+  RelationShipTo: "",
+  RelationShipName: "",
+  RelationShipType: "",
+};
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function ThirdPage() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const {
     setStep,
     userData,
@@ -20,7 +54,30 @@ function ThirdPage() {
   } = useContext(AppContext);
   const [dataTable, setDataTable] = useState([]);
   const [dataEntity, setDataEntity] = useState([]);
+  const [entityValues, setEntityValues] = useState(EntityInitialValues);
+  const [tabelValues, setTableValues] = useState(tableInitialValues);
   const metamodel_id = sessionStorage.getItem("MetaModelID");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setEntityValues({
+      ...entityValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChangeTable = (e) => {
+    setTableValues({
+      ...tabelValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handelSubmite = () => {
+    if (dataTable.length !== 0 || dataEntity.length !== 0) {
+      handleClick();
+    } else {
+      navigate("/admin-dashboard");
+    }
+  };
 
   useEffect(() => {
     async function getTableData() {
@@ -30,7 +87,7 @@ function ThirdPage() {
       );
       let tmp = [...response.data];
       setDataTable([...tmp]);
-      setTableContent([...tmp])
+      setTableContent([...tmp]);
     }
     getTableData();
   }, []);
@@ -43,15 +100,69 @@ function ThirdPage() {
       );
       let tmpE = [...response.data];
       setDataEntity([...tmpE]);
-      setEntityContent([...tmpE])
+      setEntityContent([...tmpE]);
     }
     getEntityData();
   }, []);
 
-  const handelUpdate = () => {
-    console.log(entityContent);
-    // console.log(tableContent);
-    
+  const handelUpdateAssociation = async () => {
+    const deleteEntity = [...dataEntity];
+
+    deleteEntity.map((data) => {
+      if (data.name == entityValues.AssociationFrom) {
+        deleteEntity.splice(data, 1);
+        setDataEntity(deleteEntity);
+      }
+    });
+
+    deleteEntity.map((data) => {
+      if (data.name == entityValues.AssociationTo) {
+        deleteEntity.splice(data, 1);
+        setDataEntity(deleteEntity);
+      }
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/association-create",
+        {
+          values: entityValues,
+          metaModel_ID: metamodel_id,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handelUpdateRelationShip = async () => {
+    console.log(tabelValues);
+    const deleteTable = [...dataTable];
+
+    deleteTable.map((data) => {
+      if (data.name == tabelValues.RelationShipFrom) {
+        deleteTable.splice(data, 1);
+        setDataTable(deleteTable);
+      }
+    });
+    deleteTable.map((data) => {
+      if (data.name == tabelValues.RelationShipTo) {
+        deleteTable.splice(data, 1);
+        setDataTable(deleteTable);
+      }
+    });
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/relationship-create",
+        {
+          values: tabelValues,
+          metaModel_ID: metamodel_id,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div>
@@ -80,12 +191,37 @@ function ThirdPage() {
                     direction="row"
                     gap={1}
                   >
-                    {/* <CustomChip/> */}
-                    {dataTable.map((table) => (
-                      <Grid>
-                        <button>{table.name}</button>
-                      </Grid>
-                    ))}
+                    {dataTable.length !== 0 ? (
+                      dataTable.map((data) => (
+                        <Chip
+                          label={data.name}
+                          variant="outlined"
+                          style={{
+                            fontFamily: "Outfit",
+                            fontWeight: 600,
+                            color: "#393E46",
+                          }}
+                        />
+                      ))
+                    ) : (
+                      <Alert
+                        severity="info"
+                        variant="filled"
+                        style={{
+                          borderRadius: "35px",
+                          width: "280px",
+                          height: "36px",
+                          backgroundColor: "#2196f3",
+                          color: "#2196f3",
+                        }}
+                      >
+                        <span
+                          style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
+                        >
+                          You have related all the tables
+                        </span>
+                      </Alert>
+                    )}
                   </Grid>
                 </Grid>
               </div>
@@ -112,12 +248,45 @@ function ThirdPage() {
                     direction="row"
                     gap={1}
                   >
-                    <CustomChip/>
-                    {/* {dataEntity.map((etitys) => (
-                      <Grid>
-                        <button>{etitys.name}</button>
-                      </Grid>
-                    ))} */}
+                    <Grid
+                      container
+                      justifyContent="center"
+                      direction="row"
+                      gap={1}
+                    >
+                      {dataEntity.length !== 0 ? (
+                        dataEntity.map((data) => (
+                          <Chip
+                            label={data.name}
+                            variant="outlined"
+                            style={{
+                              fontFamily: "Outfit",
+                              fontWeight: 600,
+                              color: "#393E46",
+                            }}
+                          />
+                        ))
+                      ) : (
+                        <Alert
+                          severity="info"
+                          variant="filled"
+                          style={{
+                            borderRadius: "35px",
+                            width: "280px",
+                            height: "36px",
+                            backgroundColor: "#2196f3",
+                            color: "#2196f3",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span
+                            style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
+                          >
+                            You have associated all the entities
+                          </span>
+                        </Alert>
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
               </div>
@@ -165,7 +334,11 @@ function ThirdPage() {
                         </span>
                       </Grid>
                       <Grid>
-                        <select className="input-Dialog-littel">
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChangeTable}
+                          name="RelationShipFrom"
+                        >
                           <option value="/">--Select--</option>
                           {dataTable.map((data) => (
                             <option value={data.name}>{data.name}</option>
@@ -188,7 +361,11 @@ function ThirdPage() {
                         </span>
                       </Grid>
                       <Grid>
-                        <select className="input-Dialog-littel">
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChangeTable}
+                          name="RelationShipTo"
+                        >
                           <option value="/">--Select--</option>
                           {dataTable.map((data) => (
                             <option value={data.name}>{data.name}</option>
@@ -197,25 +374,31 @@ function ThirdPage() {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid direction="column">
-                    <Grid>
-                      <span
-                        style={{
-                          fontSize: 17,
-                          fontWeight: 600,
-                          color: "#393E46",
-                          textAlign: "center",
-                          paddingLeft: "33px",
-                        }}
-                      >
-                        Relationship Type
-                      </span>
-                    </Grid>
-                    <div style={{ paddingLeft: "25px" }}>
+
+                  <Grid
+                    container
+                    justifyContent="center"
+                    direction="row"
+                    gap={1}
+                  >
+                    <Grid direction="column">
+                      <Grid>
+                        <span
+                          style={{
+                            fontSize: 17,
+                            fontWeight: 600,
+                            color: "#393E46",
+                            textAlign: "center",
+                          }}
+                        >
+                          Type
+                        </span>
+                      </Grid>
                       <Grid>
                         <select
                           className="input-Dialog-littel"
-                          style={{ width: "150px" }}
+                          onChange={handleChangeTable}
+                          name="RelationShipType"
                         >
                           <option value="/">--Select--</option>
                           <option value="association">Association</option>
@@ -225,26 +408,40 @@ function ThirdPage() {
                           <option value="dependency">Dependency</option>
                         </select>
                       </Grid>
-                    </div>
-                    <div style={{ paddingTop: "17px" }}>
+                    </Grid>
+
+                    <Grid direction="column">
                       <Grid>
-                        <button
-                          className="logout-button"
-                          style={{ width: "200px" }}
+                        <span
+                          style={{
+                            fontSize: 17,
+                            fontWeight: 600,
+                            color: "#393E46",
+                            textAlign: "center",
+                          }}
                         >
-                          <span
-                            style={{
-                              fontSize: 15,
-                              fontWeight: 600,
-                              color: "#393E46",
-                              textAlign: "center",
-                            }}
-                          >
-                            Add Relation
-                          </span>
-                        </button>
+                          Name
+                        </span>
                       </Grid>
-                    </div>
+                      <Grid>
+                        <input
+                          style={{ width: "110px", height: "24px" }}
+                          className="input-Dialog-littel-nrml"
+                          name="RelationShipName"
+                          onChange={handleChangeTable}
+                          placeholder="Name"
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid>
+                    <button
+                      className="logout-button"
+                      onClick={handelUpdateRelationShip}
+                      style={{ width: "200px" }}
+                    >
+                      Add Relationships{" "}
+                    </button>
                   </Grid>
                 </Grid>
               </div>
@@ -285,7 +482,11 @@ function ThirdPage() {
                         </span>
                       </Grid>
                       <Grid>
-                        <select className="input-Dialog-littel">
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChange}
+                          name="AssociationFrom"
+                        >
                           <option value="/">--Select--</option>
                           {dataEntity.map((data) => (
                             <option value={data.name}>{data.name}</option>
@@ -308,7 +509,11 @@ function ThirdPage() {
                         </span>
                       </Grid>
                       <Grid>
-                        <select className="input-Dialog-littel">
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChange}
+                          name="AssociationTo"
+                        >
                           <option value="/">--Select--</option>
                           {dataEntity.map((data) => (
                             <option value={data.name}>{data.name}</option>
@@ -317,23 +522,45 @@ function ThirdPage() {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <div style={{ paddingTop: "73px", paddingLeft: "20px" }}>
-                    <Grid>
-                      <button
-                        className="logout-button"
-                        style={{ width: "200px" }}
-                        onClick={handelUpdate}
-                      >
+                  <Grid
+                    container
+                    justifyContent="center"
+                    direction="row"
+                    gap={1}
+                  >
+                    <Grid direction="column">
+                      <Grid>
                         <span
                           style={{
-                            fontSize: 15,
+                            fontSize: 17,
                             fontWeight: 600,
                             color: "#393E46",
                             textAlign: "center",
                           }}
                         >
-                          Add Association{" "}
+                          Name
                         </span>
+                      </Grid>
+                      <Grid>
+                        <input
+                          style={{ width: "150px", height: "24px" }}
+                          className="input-Dialog-littel-nrml"
+                          onChange={handleChange}
+                          name="AssociationName"
+                          placeholder="Name"
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <div>
+                    <Grid>
+                      <button
+                        className="logout-button"
+                        style={{ width: "200px" }}
+                        onClick={handelUpdateAssociation}
+                      >
+                        Add Association{" "}
                       </button>
                     </Grid>
                   </div>
@@ -341,136 +568,6 @@ function ThirdPage() {
               </div>
             </Grid>
           </Grid>
-
-          {/* <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="center"
-                style={{ rowGap: "5px" }}
-              >
-                <Grid md={4}>
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      paddingRight: "300px",
-                    }}
-                  >
-                    Model Name{" "}
-                  </span>
-                </Grid>
-                <Grid md={4}>
-                  <input
-                    className="input-log-in"
-                    label="ModelName"
-                    type="ModelName"
-                    name="ModelName"
-                    required
-                    placeholder="Enter Model Name"
-                  />
-                </Grid>
-                <Grid md={4}>
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      paddingRight: "275px",
-                    }}
-                  >
-                    Model Diagram{" "}
-                  </span>
-                </Grid>
-                <Grid md={4}>
-                  <select className="Select-input">
-                    <option value="Entity Relationship Diagram">
-                      Entity Relationship Diagram
-                    </option>
-                    <option value="Class Diagram (UML)">
-                      Class Diagram (UML)
-                    </option>
-                  </select>
-                </Grid>
-                <Grid md={4}>
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      paddingRight: "300px",
-                    }}
-                  >
-                    Model Type{" "}
-                  </span>
-                </Grid>
-                <Grid md={4}>
-                  <select className="Select-input">
-                    <option value="Source Model">Source Model</option>
-                    <option value="Target Model">Target Model</option>
-                  </select>
-                </Grid>
-              </Grid> */}
-          {/* <div style={{ paddingTop: "10px" }}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  rowGap={20}
-                  columnGap={8.75}
-                >
-                  <Grid direction="column">
-                    <Grid>
-                      <span
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 400,
-                          color: "#393E46",
-                          textAlign: "center",
-                        }}
-                      >
-                        Table Number
-                      </span>
-                    </Grid>
-  
-                    <input
-                      className="input-create"
-                      label="table-number"
-                      type="text"
-                      name="table-number"
-                      required
-                      placeholder="Enter number"
-                    />
-                  </Grid>
-                  <Grid direction="column">
-                    <Grid>
-                      <span
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 400,
-                          color: "#393E46",
-                          textAlign: "center",
-                        }}
-                      >
-                        Assosiation Number
-                      </span>
-                    </Grid>
-  
-                    <input
-                      className="input-create"
-                      label="assosiation-number"
-                      type="text"
-                      name="assosiation-number"
-                      required
-                      placeholder="Enter number"
-                    />
-                  </Grid>
-                </Grid>
-              </div> */}
           <div
             style={{
               paddingTop: "40px",
@@ -503,12 +600,13 @@ function ThirdPage() {
                   <Grid>Prev</Grid>
                 </Grid>
               </button>
-              <button className="logout-button" onClick={submitData}>
+              <button className="logout-button">
                 <Grid
                   container
                   justifyContent="center"
                   style={{ paddingTop: "20px", paddingLeft: "20px" }}
                   spacing={2}
+                  onClick={handelSubmite}
                 >
                   <Grid>Submit</Grid>
                   <Grid>
@@ -520,6 +618,22 @@ function ThirdPage() {
           </div>
         </div>
       </div>
+      <Snackbar
+        style={{ borderRadius: "30px" }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }} 
+        style={{
+          backgroundColor: "#f44336",
+          color: "#f44336",
+        }}>
+          <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+            You havent finished the links between you tables and entities
+          </span>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

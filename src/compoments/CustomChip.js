@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,16 +9,18 @@ import { AppContext } from "../Contexts/AppContext";
 function CustomChip() {
   const { entityContent } = useContext(AppContext);
   const [openDialog, setopenDialog] = React.useState(false);
-  const [currentTabel, setcurrentTable] = React.useState();
+  const [currentTabel, setCurrentTable] = useState();
+
 
   const handleClickopenDialog = (data) => {
     setopenDialog(true);
-    setcurrentTable(data);
+    setCurrentTable(data)
   };
+
   const handleCloseDialogAndCancelReq = () => {
     setopenDialog(false);
   };
-
+  
   return (
     <div>
       <Grid container justifyContent="center" direction="row">
@@ -27,7 +29,7 @@ function CustomChip() {
             <Chip
               label={data.name}
               variant="outlined"
-              onClick={() => handleClickopenDialog(data)}
+              onClick={()=>{handleClickopenDialog(data)}}
               style={{
                 fontFamily: "Outfit",
                 fontWeight: 600,
@@ -35,8 +37,7 @@ function CustomChip() {
               }}
             />
           ))}
-
-          <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
+{(currentTabel != null)?  <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
             <Grid container justifyContent="center" direction="column">
               <Grid container justifyContent="center" direction="column">
                 <span
@@ -155,7 +156,10 @@ function CustomChip() {
                 Cancel
               </button>
             </DialogActions>
-          </Dialog>
+          </Dialog>:
+          <></>
+}
+         
         </Grid>
       </Grid>
     </div>

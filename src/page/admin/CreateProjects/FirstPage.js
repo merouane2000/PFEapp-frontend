@@ -22,30 +22,30 @@ function FirstPage() {
     });
   };
   const handleSubmitAndNext = async (e) => {
-    setStep(2);
-    // e.preventDefault();
-    // const tmpObj = { ...values };
-    // tmpObj.user_id = sessionUser_id;
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:4000/metamodel-create",
-    //     {
-    //       data: tmpObj,
-    //     }
-    //   );
-    //   if (response.data.isCreate) {
-    //     setStep(2);
-    //     sessionStorage.setItem("MetaModelID", response.data.MetaModel_ID)
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    
+    e.preventDefault();
+    const tmpObj = { ...values };
+    tmpObj.user_id = sessionUser_id;
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/metamodel-create",
+        {
+          data: tmpObj,
+        }
+      );
+      if (response.data.isCreate) {
+        setStep(2);
+        sessionStorage.setItem("MetaModelID", response.data.MetaModel_ID)
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div>
       <div>
-        {/* <form onSubmit={handleSubmitAndNext}> */}
+        <form onSubmit={handleSubmitAndNext}>
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -86,7 +86,7 @@ function FirstPage() {
                     paddingRight: "150px",
                   }}
                 >
-                  Choose Meta-Model Diagram{" "}
+                  Choose Meta-Model Type{" "}
                 </span>
               </Grid>
               <Grid md={4}>
@@ -96,10 +96,13 @@ function FirstPage() {
                   name="diagramType"
                   required
                 >
-                  <option value="isEntityRelationshipDiagram">
-                    Entity Relationship Diagram
+                  <option value="/">
+                   --Select--
                   </option>
-                  <option value="isClassDiagram">Class Diagram (UML)</option>
+                  <option value="TM">
+                   Target Model
+                  </option>
+                  <option value="SM">Source Model</option>
                 </select>
               </Grid>
               <Grid md={4}>
@@ -178,7 +181,7 @@ function FirstPage() {
                 style={{ columnGap: "50px" }}
               >
                 <button className="logout-button"  type="submit"
-                onClick={()=>{setStep(2)}}>
+                >
                   <Grid
                     container
                     justifyContent="center"
@@ -197,7 +200,7 @@ function FirstPage() {
               </Grid>
             </div>
           </div>
-        {/* </form> */}
+        </form>
       </div>
     </div>
   );
