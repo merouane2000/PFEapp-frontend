@@ -9,6 +9,7 @@ import Dashboard from "./page/admin/Dashboard";
 import SignIn from "./page/SignIn";
 import MainCreateProjectPage from "./page/admin/CreateProjects/MainCreateProjectPage";
 import AppContextProvider from "./Contexts/AppContext";
+import MainSearchProjectsPage from "./page/admin/SearchProjects/MainSearchProjectsPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/" element={<Register />} />
               <Route path="/login" element={<SignIn />} />
               <Route path="/admin-dashboard" element={<Dashboard />} />
+              <Route path="/admin-dashboard/main-search" element={<MainSearchProjectsPage/>} />
               <Route
                 path="/admin-dashboard/main-create"
                 element={<MainCreateProjectPage />}

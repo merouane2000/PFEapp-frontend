@@ -1,32 +1,16 @@
-import React, {  useEffect } from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import LogoutIcon from "@mui/icons-material/Logout";
-import myImage from "../../write-1727488.svg";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-
+import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
+import Diversity2Icon from "@mui/icons-material/Diversity2";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 function Dashboard() {
-  const navigate = useNavigate();
-  const username = sessionStorage.getItem("userName");
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-  const [open, setOpen] = React.useState(false);
-  const handleClick = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  
+const navigate = useNavigate();
+const username = sessionStorage.getItem("userName");
 
-    setOpen(false);
-  };
 
-  useEffect(() => {
-    handleClick();
-  }, []);
   const handleReset = () => {
     navigate("/");
     sessionStorage.clear();
@@ -34,12 +18,15 @@ function Dashboard() {
   const handelNavigationToCreate = () => {
     navigate("/admin-dashboard/main-create");
   };
+  const handelNavigationToSearch = () => {
+    navigate("/admin-dashboard/main-search");
+  };
 
   return (
     <div>
       <Grid container>
         <Grid container justifyContent="space-between">
-          <Grid style={{ paddingTop: "50px", paddingLeft: "75px" }}>
+          <Grid style={{ paddingTop: "80px", paddingLeft: "75px" }}>
             <span
               style={{
                 fontSize: 34,
@@ -79,10 +66,10 @@ function Dashboard() {
               fontSize: 34,
               fontWeight: 500,
               color: "#393E46",
-              paddingTop: "30px",
+              paddingTop: "35px",
             }}
           >
-            You Can{" "}
+            Share us your knowledge, You Can{" "}
           </span>
         </Grid>
       </div>
@@ -92,7 +79,7 @@ function Dashboard() {
           direction="row"
           justifyContent="space-around"
           alignItems="center"
-          style={{ paddingTop: "30px" }}
+          style={{ paddingTop: "50px" }}
         >
           <Grid>
             <Grid container direction="column">
@@ -102,20 +89,25 @@ function Dashboard() {
                   fontWeight: 500,
                   color: "#393E46",
                   paddingTop: "30px",
-                  paddingLeft: "53px",
+                  paddingLeft: "72px",
                 }}
               >
                 Create{" "}
               </span>
 
-              <div className="rectangle-button">
-                <div className="rectangle">
-                  <img src={myImage} width="200" height="250" />
-                </div>
-                <div className="justify-button">
-                  <button className="project-button" onClick={handelNavigationToCreate}> Projects</button>
-                </div>
-              </div>
+              <Grid style={{ paddingTop: "15px" }}>
+                <button
+                  className="project-button"
+                  onClick={handelNavigationToCreate}
+                >
+                  {" "}
+                  Projects
+                  <Grid style={{ paddingTop: "25px" }}>
+                    {" "}
+                    <BorderColorRoundedIcon fontSize="large" />
+                  </Grid>
+                </button>
+              </Grid>
             </Grid>
           </Grid>
           <Grid>
@@ -126,19 +118,21 @@ function Dashboard() {
                   fontWeight: 500,
                   color: "#393E46",
                   paddingTop: "30px",
+                  paddingLeft: "19px",
                 }}
               >
                 Collaborate in{" "}
               </span>
 
-              <div className="rectangle-button">
-                <div className="rectangle">
-                  {/* <img src={myImage1} width="200" height="250"/> */}
-                </div>
-                <div className="justify-button">
-                  <button className="project-button"> Projects</button>
-                </div>
-              </div>
+              <Grid style={{ paddingTop: "15px" }}>
+                <button className="project-button">
+                  {" "}
+                  Projects
+                  <Grid style={{ paddingTop: "25px" }}>
+                    <Diversity2Icon fontSize="large" />
+                  </Grid>
+                </button>
+              </Grid>
             </Grid>
           </Grid>
           <Grid>
@@ -149,36 +143,23 @@ function Dashboard() {
                   fontWeight: 500,
                   color: "#393E46",
                   paddingTop: "30px",
-                  paddingLeft: "30px",
+                  paddingLeft: "51px",
                 }}
               >
                 Search in{" "}
               </span>
-
-              <div className="rectangle-button">
-                <div className="rectangle">
-                  {/* <img src={Icon} width="200" height="250" /> */}
-                </div>
-                <div className="justify-button">
-                  <button className="project-button"> Projects</button>
-                </div>
-              </div>
+              <Grid style={{ paddingTop: "15px" }}>
+                <button className="project-button" onClick={handelNavigationToSearch}>
+                  {" "}
+                  Projects
+                  <Grid style={{ paddingTop: "25px" }}>
+                    <SearchRoundedIcon fontSize="large" />
+                  </Grid>
+                </button>
+              </Grid>
             </Grid>
           </Grid>
-
-          <Snackbar
-            style={{ borderRadius: "30px" }}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
-              <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-                {" "}
-                You have logged in successfully{" "}
-              </span>
-            </Alert>
-          </Snackbar>
+          
         </Grid>
       </div>
     </div>

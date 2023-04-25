@@ -16,32 +16,30 @@ const InitialValues = {
 
 function SecondPage() {
   const { setStep, tableContent, entitiesContent } = useContext(AppContext);
-  const metamodel_ID = sessionStorage.getItem("MetaModelID")
+  const metamodel_ID = sessionStorage.getItem("MetaModelID");
 
   // const handleClickchip = () => {
   //   console.info(entitiesContent);
   // };
   const [values, setValues] = useState(InitialValues);
 
-
-  const handelUpdate = async() => {
+  const handelUpdate = async () => {
+   
     try {
       const response = await axios.post(
         "http://localhost:4000/metamodel-update",
         {
           metaModel_id: metamodel_ID,
-          descriptionModel:values.description,
-          exampleModel:values.example,
-
+          descriptionModel: values.description,
+          exampleModel: values.example,
         }
       );
-      if(response.data.acknowledged){
+      if (response.data.acknowledged) {
         setStep(3);
       }
     } catch (error) {
       console.error(error);
     }
-  
   };
   const handleChange = (e) => {
     setValues({
@@ -52,8 +50,9 @@ function SecondPage() {
 
   return (
     <div>
-      <div>
-{/* <CustomChip/> */}
+     
+        <div>
+          {/* <CustomChip/> */}
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
@@ -61,9 +60,8 @@ function SecondPage() {
               justify="center"
               alignItems="center"
               style={{ rowGap: "5px" }}
-
             >
-                <Grid md={4}>
+              <Grid md={4}>
                 <span
                   style={{
                     fontSize: 20,
@@ -77,14 +75,17 @@ function SecondPage() {
                 </span>
               </Grid>
               <Grid md={4}>
+    
                 <input
-                style={{height:"39"}}
+                  style={{ height: "39" }}
                   className="input-log-in"
                   name="example"
                   onChange={handleChange}
                   required
                   placeholder="Enter your example"
                 />
+
+           
               </Grid>
               <Grid md={4}>
                 <span
@@ -96,41 +97,38 @@ function SecondPage() {
                     paddingRight: "275px",
                   }}
                 >
-                  The Description  {" "}
+                  The Description{" "}
                 </span>
               </Grid>
               <Grid md={4}>
-                <textarea  
-                placeholder="Describe your Target/source Model"
-                onChange={handleChange}
-                name="description"
-                className="textarea"
+            
+
+                <textarea
+                  placeholder="Describe your Target/source Model"
+                  onChange={handleChange}
+                  name="description"
+                  required
+                  className="textarea"
                 />
-  
+              
               </Grid>
-              <div style={{paddingTop:"15px"}}>
-
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                columnGap={8.5}
-              >
-                
-                <Grid>
-                  <CustomClassDiagramDialog />
+              <div style={{ paddingTop: "15px" }}>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  columnGap={8.5}
+                >
+                  <Grid>
+                    <CustomClassDiagramDialog />
+                  </Grid>
+                  <Grid>
+                    <CustomRationalDiagramDialog />
+                  </Grid>
                 </Grid>
-                <Grid>
-                  <CustomRationalDiagramDialog />
-                </Grid>
-              </Grid>
               </div>
-
-            
-            
-        
             </Grid>
-          
+
             <div style={{ paddingTop: "40px" }}>
               <Grid
                 container
@@ -140,6 +138,7 @@ function SecondPage() {
               >
                 <button
                   className="logout-button"
+                  type="button"
                   onClick={() => {
                     setStep(1);
                   }}
@@ -159,19 +158,12 @@ function SecondPage() {
                     <Grid>Prev</Grid>
                   </Grid>
                 </button>
-                <button
-                  className="logout-button"
-                  onClick={handelUpdate}
-                
-                 
-                
-                >
+                <button className="logout-button" onClick={handelUpdate}>
                   <Grid
                     container
                     justifyContent="center"
                     style={{ paddingTop: "20px", paddingLeft: "25px" }}
                     spacing={2}
-                 
                   >
                     <Grid>Next</Grid>
                     <Grid>
@@ -185,7 +177,8 @@ function SecondPage() {
               </Grid>
             </div>
           </div>
-      </div>
+        </div>
+
     </div>
   );
 }

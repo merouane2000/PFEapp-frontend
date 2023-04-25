@@ -76,6 +76,7 @@ function ThirdPage() {
       handleClick();
     } else {
       navigate("/admin-dashboard");
+      setStep(1);
     }
   };
 

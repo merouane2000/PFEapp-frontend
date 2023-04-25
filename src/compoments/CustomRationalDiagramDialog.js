@@ -8,6 +8,12 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { AppContext } from "../Contexts/AppContext";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const InitialValues = {
   entityName: "",
@@ -18,6 +24,19 @@ function CustomRationalDiagramDialog() {
   const [values, setValues] = useState(InitialValues);
   const [attribute, setAttribute] = useState([]);
   const [attributeSet, setAttributeSet] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const metaModel_id = sessionStorage.getItem("MetaModelID")
   const {
@@ -53,7 +72,8 @@ function CustomRationalDiagramDialog() {
     console.log(entitiesContent);
   }, [entityContent,entitiesContent]);
 
-  const handleSubmitAndNext = async () => {
+  const handleSubmitAndNext = async (e) => {
+    e.preventDefault();
     const contexObj = {
       name: values.entityName,
       cardinality: values.cardinalty,
@@ -74,7 +94,9 @@ function CustomRationalDiagramDialog() {
         }
       );
       if (response.data.isCreate) {
-        console.log("succuss")
+        console.log("succuss to create Entities")
+        handleClick()  
+        setopenDialog(false);
 
       }
     } catch (error) {
@@ -116,6 +138,7 @@ function CustomRationalDiagramDialog() {
       </Grid>
 
       <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
+        <form onSubmit={handleSubmitAndNext}>
         <Grid container justifyContent="center" direction="column">
           <Grid container justifyContent="center">
             <span
@@ -204,6 +227,7 @@ function CustomRationalDiagramDialog() {
               className="logout-button"
               style={{ height: "32px" }}
               onClick={handelAddAttribute}
+              type="button"
             >
               <Grid
                 container
@@ -232,6 +256,7 @@ function CustomRationalDiagramDialog() {
                     <button
                       className="logout-button"
                       style={{ height: "32px" }}
+                      type="button"
                       onClick={() => handleDeleteAttribute(index)}
                     >
                       <Grid
@@ -298,20 +323,43 @@ function CustomRationalDiagramDialog() {
         <DialogActions>
           <button
             onClick={handleCloseDialogAndCancelReq}
+            type="button"
             style={{ height: "32px" }}
             className="logout-button"
           >
             Cancel
           </button>
           <button
-            onClick={handleSubmitAndNext}
+        type="submit"
             style={{ height: "32px" }}
             className="logout-button"
           >
             Submit
           </button>
         </DialogActions>
+
+        </form>
+       
       </Dialog>
+      <Snackbar
+        style={{ borderRadius: "30px" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="info"  variant="filled"
+         style={{
+       
+          width: "400px",
+          height: "36px",
+          backgroundColor: "#2196f3",
+          color: "#2196f3",
+        }}>
+          <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+          You created an entity in your model successfully
+          </span>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Dialog from "@mui/material/Dialog";
@@ -8,6 +8,12 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AppContext } from "../Contexts/AppContext";
 import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function CustomClassDiagramDialog() {
   const { tableContent, setTableContent, finalData, setFinalData } =
@@ -19,7 +25,21 @@ function CustomClassDiagramDialog() {
   const [nameTable, setNameTable] = useState("");
   const [cardinalityTable, setcardinalityTable] = useState("");
   const [openDialog, setopenDialog] = React.useState(false);
-  const metaModel_id = sessionStorage.getItem("MetaModelID")
+  const metaModel_id = sessionStorage.getItem("MetaModelID");
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const handleChange = (e) => {
     setDataAttribute({
       ...DataAttribute,
@@ -44,8 +64,9 @@ function CustomClassDiagramDialog() {
     setcardinalityTable("");
   };
 
+  const handleCloseDialogAndSubmite = async (e) => {
+    e.preventDefault();
 
-  const handleCloseDialogAndSubmite = async() => {
     const obj = {
       allDataAttribute,
       ...allDataMethods,
@@ -58,20 +79,17 @@ function CustomClassDiagramDialog() {
     console.log(finalData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/table-create",
-        {
-          attributes: allDataAttribute,
-          methodes: allDataMethods,
-          name:nameTable,
-          cardinality:cardinalityTable,
-          metaModel_ID: metaModel_id
-
-        }
-      );
-      if (response.data.isCreate) {     
-        console.log(response)
-
+      const response = await axios.post("http://localhost:4000/table-create", {
+        attributes: allDataAttribute,
+        methodes: allDataMethods,
+        name: nameTable,
+        cardinality: cardinalityTable,
+        metaModel_ID: metaModel_id,
+      });
+      if (response.data.isCreate) {
+        console.log("succuss to create Tabels");
+        handleClick();
+        setopenDialog(false);
       }
     } catch (error) {
       console.error(error);
@@ -117,179 +135,45 @@ function CustomClassDiagramDialog() {
           </Grid>
         </button>
       </Grid>
+
       <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
-        <Grid container justifyContent="center" direction="column">
-          <Grid container justifyContent="center">
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 400,
-                color: "#393E46",
-                textAlign: "center",
-                fontFamily: "Outfit",
-              }}
-            >
-              Table Name{" "}
-            </span>
-          </Grid>
-          <Grid container justifyContent="center">
-            <input
-              onChange={(e) => {
-                setNameTable(e.target.value);
-              }}
-              className="input-Dialog"
-              label="tableName"
-              type="text"
-              name="tableName"
-              value={nameTable}
-              required
-              placeholder="Enter your table name"
-            />
-          </Grid>
-          <hr
-            style={{
-              width: "500px",
-              height: "1px",
-              background: "black",
-            }}
-          />
-        </Grid>
-        <Grid container justifyContent="center">
-          <span
-            style={{
-              fontSize: 20,
-              fontWeight: 400,
-              color: "#393E46",
-              textAlign: "center",
-              fontFamily: "Outfit",
-            }}
-          >
-            Attributes{" "}
-          </span>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-around"
-          style={{ paddingTop: "5px" }}
-        >
-          <div>
-            <Grid container direction="column">
-              <span>Visibility</span>
-              <select
-                className="input-Dialog-littel"
-                value={DataAttribute.visibilty}
-                onChange={handleChange}
-                name="attributeVisibilty"
+        <form onSubmit={handleCloseDialogAndSubmite}>
+          <Grid container justifyContent="center" direction="column">
+            <Grid container justifyContent="center">
+              <span
+                style={{
+                  fontSize: 20,
+                  fontWeight: 400,
+                  color: "#393E46",
+                  textAlign: "center",
+                  fontFamily: "Outfit",
+                }}
               >
-                <option value="/">Select</option>
-                <option value="+">Public (+)</option>
-                <option value="-">Private (-)</option>
-                <option value="#">Protected (#)</option>
-              </select>
+                Table Name{" "}
+              </span>
             </Grid>
-          </div>
-          <div>
-            <Grid container direction="column">
-              <span>Attribute name</span>
+            <Grid container justifyContent="center">
               <input
-                onChange={handleChange}
-                className="input-Dialog-littel-nrml"
-                label="attributename"
+                onChange={(e) => {
+                  setNameTable(e.target.value);
+                }}
+                className="input-Dialog"
+                label="tableName"
                 type="text"
-                name="attributeName"
+                name="tableName"
+                value={nameTable}
                 required
-                placeholder="Attribute name"
+                placeholder="Enter your table name"
               />
             </Grid>
-          </div>
-          <div>
-            <Grid container direction="column">
-              <span>Type</span>
-              <select
-                className="input-Dialog-littel"
-                onChange={handleChange}
-                value={DataAttribute.type}
-                name="attributeType"
-              >
-                <option value="/">Select</option>
-                <option value="ID">_id</option>
-                <option value="Integer">Integer</option>
-                <option value="String">String</option>
-                <option value="Boolean">Boolean</option>
-                <option value="Float">Float</option>
-                <option value="Date/Time">Date/Time</option>
-                <option value="Object">Object</option>
-                <option value="Enumeration">Enumeration</option>
-              </select>
-            </Grid>
-          </div>
-          <div style={{ paddingTop: "20px" }}>
-            <button
-              className="logout-button"
-              style={{ height: "32px" }}
-              onClick={handelAddAttribute}
-            >
-              <Grid
-                container
-                justifyContent="center"
-                style={{ paddingTop: "19px", paddingLeft: "20px" }}
-                spacing={2}
-              >
-                <Grid>Add</Grid>
-                <Grid paddingLeft="5px">
-                  <AddIcon fontSize="small" />
-                </Grid>
-              </Grid>
-            </button>
-          </div>
-        </Grid>
-        <DialogContent>
-          <div>
-            <ol>
-              {allDataAttribute.map((data, index) => (
-                <li key={index}>
-                  <Grid container direction="row" justifyContent="space-evenly">
-                    <span style={{ paddingTop: "7px" }}>
-                      {data.attributeVisibilty +
-                        " " +
-                        data.attributeName +
-                        " : " +
-                        data.attributeType}{" "}
-                    </span>
-
-                    <button
-                      className="logout-button"
-                      style={{ height: "32px" }}
-                      onClick={() => handleDeleteAttribute(index)}
-                    >
-                      <Grid
-                        container
-                        justifyContent="center"
-                        style={{
-                          paddingTop: "19px",
-                          paddingLeft: "20px",
-                        }}
-                        spacing={2}
-                      >
-                        <Grid>Delete</Grid>
-                        <Grid paddingLeft="3px">
-                          <DeleteIcon fontSize="small" />
-                        </Grid>
-                      </Grid>
-                    </button>
-                  </Grid>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <hr
-            style={{
-              width: "500px",
-              height: "1px",
-              background: "black",
-            }}
-          />
+            <hr
+              style={{
+                width: "500px",
+                height: "1px",
+                background: "black",
+              }}
+            />
+          </Grid>
           <Grid container justifyContent="center">
             <span
               style={{
@@ -300,7 +184,7 @@ function CustomClassDiagramDialog() {
                 fontFamily: "Outfit",
               }}
             >
-              Methodes{" "}
+              Attributes{" "}
             </span>
           </Grid>
           <Grid
@@ -314,9 +198,9 @@ function CustomClassDiagramDialog() {
                 <span>Visibility</span>
                 <select
                   className="input-Dialog-littel"
-                  value={dataMethods.visibilty}
-                  onChange={handleChangeMethodes}
-                  name="methodeVisibilty"
+                  value={DataAttribute.visibilty}
+                  onChange={handleChange}
+                  name="attributeVisibilty"
                 >
                   <option value="/">Select</option>
                   <option value="+">Public (+)</option>
@@ -327,23 +211,45 @@ function CustomClassDiagramDialog() {
             </div>
             <div>
               <Grid container direction="column">
-                <span>Methode name</span>
+                <span>Attribute name</span>
                 <input
-                  onChange={handleChangeMethodes}
+                  onChange={handleChange}
                   className="input-Dialog-littel-nrml"
+                  label="attributename"
                   type="text"
-                  name="methodeName"
+                  name="attributeName"
                   required
-                  placeholder="Methode name"
+                  placeholder="Attribute name"
                 />
               </Grid>
             </div>
-
+            <div>
+              <Grid container direction="column">
+                <span>Type</span>
+                <select
+                  className="input-Dialog-littel"
+                  onChange={handleChange}
+                  value={DataAttribute.type}
+                  name="attributeType"
+                >
+                  <option value="/">Select</option>
+                  <option value="ID">_id</option>
+                  <option value="Integer">Integer</option>
+                  <option value="String">String</option>
+                  <option value="Boolean">Boolean</option>
+                  <option value="Float">Float</option>
+                  <option value="Date/Time">Date/Time</option>
+                  <option value="Object">Object</option>
+                  <option value="Enumeration">Enumeration</option>
+                </select>
+              </Grid>
+            </div>
             <div style={{ paddingTop: "20px" }}>
               <button
                 className="logout-button"
                 style={{ height: "32px" }}
-                onClick={handelAddMethode}
+                type="button"
+                onClick={handelAddAttribute}
               >
                 <Grid
                   container
@@ -359,101 +265,252 @@ function CustomClassDiagramDialog() {
               </button>
             </div>
           </Grid>
-          <div>
-            <ol>
-              {allDataMethods.map((datas, index) => (
-                <li key={index}>
-                  <Grid container direction="row" justifyContent="space-evenly">
-                    <span style={{ paddingTop: "7px" }}>
-                      {datas.methodeVisibilty + " " + datas.methodeName + "()"}{" "}
-                    </span>
-
-                    <button
-                      className="logout-button"
-                      style={{ height: "32px" }}
-                      onClick={() => handleDeleteMethode(index)}
-                    >
-                      <Grid
-                        container
-                        justifyContent="center"
-                        style={{
-                          paddingTop: "19px",
-                          paddingLeft: "20px",
-                        }}
-                        spacing={2}
-                      >
-                        <Grid>Delete</Grid>
-                        <Grid paddingLeft="3px">
-                          <DeleteIcon fontSize="small" />
-                        </Grid>
-                      </Grid>
-                    </button>
-                  </Grid>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <hr
-            style={{
-              width: "500px",
-              height: "1px",
-              background: "black",
-            }}
-          />
-          <Grid container justifyContent="center">
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 400,
-                color: "#393E46",
-                textAlign: "center",
-                fontFamily: "Outfit",
-              }}
-            >
-              Multiplicity{" "}
-            </span>
-          </Grid>
-          <Grid container justifyContent="center">
+          <DialogContent>
             <div>
-              <Grid container direction="column">
-                <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                  Multiplicity
-                </span>
-                <select
-                  className="input-Dialog-littel"
-                  onChange={(e) => {
-                    setcardinalityTable(e.target.value);
-                  }}
-                  value={cardinalityTable}
-                  name="tableMultiplicity"
-                >
-                  <option value="/">Select</option>
-                  <option value="1..*">"1..*"</option>
-                  <option value="0..1">"0..1"</option>
-                  <option value="*">"*"</option>
-                  <option value="1">"1"</option>
-                </select>
-              </Grid>
+              <ol>
+                {allDataAttribute.map((data, index) => (
+                  <li key={index}>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-evenly"
+                    >
+                      <span style={{ paddingTop: "7px" }}>
+                        {data.attributeVisibilty +
+                          " " +
+                          data.attributeName +
+                          " : " +
+                          data.attributeType}{" "}
+                      </span>
+
+                      <button
+                        className="logout-button"
+                        style={{ height: "32px" }}
+                        onClick={() => handleDeleteAttribute(index)}
+                      >
+                        <Grid
+                          container
+                          justifyContent="center"
+                          style={{
+                            paddingTop: "19px",
+                            paddingLeft: "20px",
+                          }}
+                          spacing={2}
+                        >
+                          <Grid>Delete</Grid>
+                          <Grid paddingLeft="3px">
+                            <DeleteIcon fontSize="small" />
+                          </Grid>
+                        </Grid>
+                      </button>
+                    </Grid>
+                  </li>
+                ))}
+              </ol>
             </div>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <button
-            onClick={handleCloseDialogAndCancelReq}
-            style={{ height: "32px" }}
-            className="logout-button"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleCloseDialogAndSubmite}
-            style={{ height: "32px" }}
-            className="logout-button"
-          >
-            Submit
-          </button>
-        </DialogActions>
+            <hr
+              style={{
+                width: "500px",
+                height: "1px",
+                background: "black",
+              }}
+            />
+            <Grid container justifyContent="center">
+              <span
+                style={{
+                  fontSize: 20,
+                  fontWeight: 400,
+                  color: "#393E46",
+                  textAlign: "center",
+                  fontFamily: "Outfit",
+                }}
+              >
+                Methodes{" "}
+              </span>
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-around"
+              style={{ paddingTop: "5px" }}
+            >
+              <div>
+                <Grid container direction="column">
+                  <span>Visibility</span>
+                  <select
+                    className="input-Dialog-littel"
+                    value={dataMethods.visibilty}
+                    onChange={handleChangeMethodes}
+                    name="methodeVisibilty"
+                  >
+                    <option value="/">Select</option>
+                    <option value="+">Public (+)</option>
+                    <option value="-">Private (-)</option>
+                    <option value="#">Protected (#)</option>
+                  </select>
+                </Grid>
+              </div>
+              <div>
+                <Grid container direction="column">
+                  <span>Methode name</span>
+                  <input
+                    onChange={handleChangeMethodes}
+                    className="input-Dialog-littel-nrml"
+                    type="text"
+                    name="methodeName"
+                    required
+                    placeholder="Methode name"
+                  />
+                </Grid>
+              </div>
+
+              <div style={{ paddingTop: "20px" }}>
+                <button
+                  className="logout-button"
+                  style={{ height: "32px" }}
+                  type="button"
+                  onClick={handelAddMethode}
+                >
+                  <Grid
+                    container
+                    justifyContent="center"
+                    style={{ paddingTop: "19px", paddingLeft: "20px" }}
+                    spacing={2}
+                  >
+                    <Grid>Add</Grid>
+                    <Grid paddingLeft="5px">
+                      <AddIcon fontSize="small" />
+                    </Grid>
+                  </Grid>
+                </button>
+              </div>
+            </Grid>
+            <div>
+              <ol>
+                {allDataMethods.map((datas, index) => (
+                  <li key={index}>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-evenly"
+                    >
+                      <span style={{ paddingTop: "7px" }}>
+                        {datas.methodeVisibilty +
+                          " " +
+                          datas.methodeName +
+                          "()"}{" "}
+                      </span>
+
+                      <button
+                        className="logout-button"
+                        style={{ height: "32px" }}
+                        onClick={() => handleDeleteMethode(index)}
+                      >
+                        <Grid
+                          container
+                          justifyContent="center"
+                          style={{
+                            paddingTop: "19px",
+                            paddingLeft: "20px",
+                          }}
+                          spacing={2}
+                        >
+                          <Grid>Delete</Grid>
+                          <Grid paddingLeft="3px">
+                            <DeleteIcon fontSize="small" />
+                          </Grid>
+                        </Grid>
+                      </button>
+                    </Grid>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <hr
+              style={{
+                width: "500px",
+                height: "1px",
+                background: "black",
+              }}
+            />
+            <Grid container justifyContent="center">
+              <span
+                style={{
+                  fontSize: 20,
+                  fontWeight: 400,
+                  color: "#393E46",
+                  textAlign: "center",
+                  fontFamily: "Outfit",
+                }}
+              >
+                Multiplicity{" "}
+              </span>
+            </Grid>
+            <Grid container justifyContent="center">
+              <div>
+                <Grid container direction="column">
+                  <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
+                    Multiplicity
+                  </span>
+                  <select
+                    className="input-Dialog-littel"
+                    onChange={(e) => {
+                      setcardinalityTable(e.target.value);
+                    }}
+                    value={cardinalityTable}
+                    name="tableMultiplicity"
+                  >
+                    <option value="/">Select</option>
+                    <option value="1..*">"1..*"</option>
+                    <option value="0..1">"0..1"</option>
+                    <option value="*">"*"</option>
+                    <option value="1">"1"</option>
+                  </select>
+                </Grid>
+              </div>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <button
+              onClick={handleCloseDialogAndCancelReq}
+              type="button"
+              style={{ height: "32px" }}
+              className="logout-button"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              style={{ height: "32px" }}
+              className="logout-button"
+            >
+              Submit
+            </button>
+          </DialogActions>
+        </form>
       </Dialog>
+      <Snackbar
+        style={{ borderRadius: "30px" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="info"
+          variant="filled"
+          style={{
+            width: "400px",
+            height: "36px",
+            backgroundColor: "#2196f3",
+            color: "#2196f3",
+          }}
+        >
+          <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
+            You created a table in your model successfully
+          </span>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
