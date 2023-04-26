@@ -1,67 +1,81 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
-import Diversity2Icon from "@mui/icons-material/Diversity2";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import Input from "@mui/material/Input";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import HomeIcon from "@mui/icons-material/Home";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#393E46",
-      color: theme.palette.common.white,
-      fontFamily:"Outfit"
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      fontFamily:"Outfit",
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
-  
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#393E46",
+    color: theme.palette.common.white,
+    fontFamily: "Outfit",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    fontFamily: "Outfit",
+    fontWeight: 600,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function MainSearchProjectsPage() {
   const navigate = useNavigate();
-  const username = sessionStorage.getItem("userName");
+  const [dataModels, setDataModels] = useState([]);
+  const [result, setResult] = useState([]);
+  const [dataSearch, setDataSearch] = useState();
 
-  const handleReset = () => {
-    navigate("/");
-    sessionStorage.clear();
+  const handleBackToHomePage = () => {
+    navigate("/admin-dashboard");
   };
-  const handelNavigationToCreate = () => {
-    navigate("/admin-dashboard/main-create");
+  const handelNavigateToTargetModel = (row) => {
+    sessionStorage.setItem("metaModelTarged-ID", row._id);
+    sessionStorage.setItem("metaModelTarged-name", row.name);
+    sessionStorage.setItem("metaModelTarged-description", row.description);
   };
+  const handelNavigateToSourceModel = (row) => {
+    sessionStorage.setItem("metaModelSource-ID", row._id);
+    sessionStorage.setItem("metaModelSource-name", row.name);
+    sessionStorage.setItem("metaModelSource-description", row.description);
+  };
+  const handelSearch = (e) => {
+    setDataSearch(e.target.value);
+    setResult(dataModels);
+    findServices()
+  };
+
+   const findServices =()=> {
+    let cloneData = dataModels.filter((model) => model.name.match(dataSearch));
+    if(cloneData.length != 0){
+      setDataModels(cloneData) 
+    } 
+
+    }
+  useEffect(() => {
+    async function getTableData() {
+      const response = await axios.get("http://localhost:4000/get-all-models");
+      console.log(response.data);
+      let tmp = [...response.data];
+      setDataModels([...tmp]);
+    }
+    getTableData();
+  }, []);
 
   return (
     <div>
@@ -93,6 +107,8 @@ function MainSearchProjectsPage() {
               <input
                 className="input-log-in"
                 name="modelName"
+                value={dataSearch}
+                onChange={handelSearch}
                 required
                 placeholder="Model Name"
               />
@@ -102,16 +118,16 @@ function MainSearchProjectsPage() {
             justifyContent="center"
             style={{ paddingTop: "18px", paddingRight: "25px" }}
           >
-            <button className="logout-button" onClick={handleReset}>
+            <button className="logout-button" onClick={handleBackToHomePage}>
               <Grid
                 container
                 justifyContent="center"
                 style={{ paddingTop: "20px", paddingLeft: "15px" }}
                 spacing={2}
               >
-                <Grid>Logout</Grid>
+                <Grid>Home</Grid>
                 <Grid>
-                  <LogoutIcon style={{ paddingLeft: "3px" }} fontSize="small" />
+                  <HomeIcon style={{ paddingLeft: "3px" }} fontSize="small" />
                 </Grid>
               </Grid>
             </button>
@@ -120,38 +136,75 @@ function MainSearchProjectsPage() {
       </Grid>
 
       <div>
-        <Grid container justifyContent="center" style={{paddingTop:"50px"}}>
-        <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Model Name </StyledTableCell>
-            <StyledTableCell align="right">Type</StyledTableCell>
-            <StyledTableCell align="right">Reprisentation</StyledTableCell>
-            <StyledTableCell align="right">Quality</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-        
-      </Table>
-    </TableContainer>
-    <TablePagination rowsPerPageOptions={[10, 50]} colSpan={3}
-              count={rows.length} />
-
+        <Grid container justifyContent="center" style={{ paddingTop: "50px" }}>
+          <TableContainer component={Paper} sx={{ width: 1200 }}>
+            <Table sx={{ width: 1200 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Model Name </StyledTableCell>
+                  <StyledTableCell align="center">
+                  Based Example
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    MT Aproach used
+                  </StyledTableCell>
+                  <StyledTableCell align="center">Heuristic</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Target Model Reprisentation{" "}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Source Model Reprisentation
+                  </StyledTableCell>
+              
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataModels.map((row, index) => (
+                  <StyledTableRow key={row.index}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.example}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.approachUsed}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.heuristic}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {
+                        <Link
+                          onClick={() => handelNavigateToTargetModel(row)}
+                          style={{ textDecoration: "none" }}
+                          to="target-reprisontation"
+                        >
+                          {" "}
+                          View
+                        </Link>
+                      }
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {
+                        <Link
+                          onClick={() => handelNavigateToSourceModel(row)}
+                          style={{ textDecoration: "none" }}
+                          to="source-reprisontation"
+                        >
+                          {" "}
+                          View
+                        </Link>
+                      }
+                    </StyledTableCell>
+                  
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
       </div>
-    
     </div>
   );
 }
