@@ -8,6 +8,10 @@ import AppContextProvider from "./Contexts/AppContext";
 import MainSearchProjectsPage from "./page/admin/SearchProjects/MainSearchProjectsPage";
 import SourceModelReprisentation from "./page/admin/SearchProjects/SourceModelReprisentation";
 import TargetModelReprisentation from "./page/admin/SearchProjects/TargetModelReprisentation";
+import MainCollaborateProjectsPage from "./page/admin/CollaborateProjects/MainCollaborateProjectsPage";
+import EditTargetRep from "./page/admin/CollaborateProjects/EditTargetRep";
+import EditSourceRep from "./page/admin/CollaborateProjects/EditSourceRep";
+import EditPage from "./page/admin/CollaborateProjects/EditPage";
 
 function App() {
   return (
@@ -33,6 +37,22 @@ function App() {
             <Route
               path="/admin-dashboard/main-create"
               element={<MainCreateProjectPage />}
+            />
+            <Route
+              path="/admin-dashboard/main-collaborate"
+              element={<MainCollaborateProjectsPage/>}
+            />
+            <Route
+              path="/admin-dashboard/main-collaborate/edit-source-reprisontation"
+              element={<EditSourceRep/>}
+            />
+            <Route
+              path="/admin-dashboard/main-collaborate/edit-target-reprisontation"
+              element={<EditTargetRep/>}
+            />
+            <Route
+              path="/admin-dashboard/main-collaborate/edit-page"
+              element={<EditPage/>}
             />
           </Routes>
         </Router>

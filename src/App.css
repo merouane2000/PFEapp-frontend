@@ -19,12 +19,13 @@
   transform: scale(1.04);
 
 }
-.logout-button{
+
+.logout-button {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
   border: 3px solid #222831;
-  width:90px;
+  width: 90px;
   height: 35px;
   cursor: pointer;
   color: #393E46;
@@ -34,6 +35,7 @@
   transition: transform 0.5s ease;
 
 }
+
 .logout-button:hover {
   background-color: #393E46;
   color: #eeeeee;
@@ -76,6 +78,7 @@ input[type=checkbox]:checked {
   accent-color: #222831 !important;
 
 }
+
 .rectangle {
   width: 200px;
   height: 250px;
@@ -84,6 +87,7 @@ input[type=checkbox]:checked {
   border-radius: 39px;
   position: absolute;
 }
+
 .project-button {
   background-color: #EEEEEE;
   color: #EEEEEE;
@@ -98,22 +102,26 @@ input[type=checkbox]:checked {
   font-size: 30px;
   transition: transform 0.5s ease;
 }
+
 .project-button:hover {
   background-color: #393E46;
   color: #eeeeee;
   transform: scale(1.04);
 
 }
-.rectangle-button{
+
+.rectangle-button {
 
   width: 200px;
   height: 100px;
 }
-.justify-button{
-   padding-left: 43px;
-   padding-top: 232px
+
+.justify-button {
+  padding-left: 43px;
+  padding-top: 232px
 }
-.Select-input{
+
+.Select-input {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -127,7 +135,8 @@ input[type=checkbox]:checked {
   padding-left: 20px;
 
 }
-.input-create{
+
+.input-create {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -141,7 +150,8 @@ input[type=checkbox]:checked {
   padding-left: 20px;
 
 }
-.input-Dialog{
+
+.input-Dialog {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -155,7 +165,8 @@ input[type=checkbox]:checked {
   padding-left: 15px;
 
 }
-.input-Dialog-littel{
+
+.input-Dialog-littel {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -169,7 +180,8 @@ input[type=checkbox]:checked {
   padding-left: 3px;
 
 }
-.input-Dialog-littel-nrml{
+
+.input-Dialog-littel-nrml {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -182,7 +194,8 @@ input[type=checkbox]:checked {
   height: 24px;
   padding-left: 3px;
 }
-.targe-source-buttom{
+
+.targe-source-buttom {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -196,13 +209,15 @@ input[type=checkbox]:checked {
   font-size: 15px;
   transition: transform 0.5s ease;
 }
+
 .targe-source-buttom:hover {
   background-color: #393E46;
   color: #eeeeee;
   transform: scale(1.04);
 
 }
-.textarea{
+
+.textarea {
   background-color: #EEEEEE;
   color: #EEEEEE;
   border-radius: 35px;
@@ -231,4 +246,20 @@ input[type=checkbox]:checked {
   width: 400px;
   height: 40px;
   padding-left: 20px;
+}
+
+.MuiTablePagination-selectLabel {
+
+  font-family: Outfit;
+  font-weight: 600;
+}
+
+.css-levciy-MuiTablePagination-displayedRows {
+  font-family: Outfit;
+  font-weight: 600;
+}
+
+.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input {
+  font-family: Outfit;
+  font-weight: 600;
 }

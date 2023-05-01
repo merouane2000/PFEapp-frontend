@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import HomeIcon from "@mui/icons-material/Home";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import HomeIcon from "@mui/icons-material/Home";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import TablePagination from "@mui/material/TablePagination";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#393E46",
@@ -35,26 +37,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function MainSearchProjectsPage() {
+function MainCollaborateProjectsPage() {
   const navigate = useNavigate();
   const [dataModels, setDataModels] = useState([]);
   const [dataSearch, setDataSearch] = useState();
   const [result, setResult] = useState([]);
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(6);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handelSearch = (e) => {
+    setDataSearch(e.target.value);
+    setResult(dataModels);
+    findServices();
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const findServices = () => {
+    let cloneData = dataModels.filter((model) => model.name.match(dataSearch));
+    if (cloneData.length != 0) {
+      setDataModels(cloneData);
+    }
   };
-  const handleBackToHomePage = () => {
-    navigate("/admin-dashboard");
-  };
+
   const handelNavigateToTargetModel = (row) => {
     sessionStorage.setItem("metaModelTarged-ID", row._id);
     sessionStorage.setItem("metaModelTarged-name", row.name);
@@ -65,19 +66,23 @@ function MainSearchProjectsPage() {
     sessionStorage.setItem("metaModelSource-name", row.name);
     sessionStorage.setItem("metaModelSource-description", row.description);
   };
-  const handelSearch = (e) => {
-    setDataSearch(e.target.value);
-    setResult(dataModels);
-    findServices()
+  const handelNavigateToEditPage = (row) => {
+    sessionStorage.setItem("selectedModel", row._id);
+  };
+  const handleBackToHomePage = () => {
+    navigate("/admin-dashboard");
+  };
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
-   const findServices =()=> {
-    let cloneData = dataModels.filter((model) => model.name.match(dataSearch));
-    if(cloneData.length != 0){
-      setDataModels(cloneData) 
-    } 
-
-    }
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   useEffect(() => {
     async function getTableData() {
       const response = await axios.get("http://localhost:4000/get-all-models");
@@ -87,7 +92,6 @@ function MainSearchProjectsPage() {
     }
     getTableData();
   }, []);
-
   return (
     <div>
       <Grid container>
@@ -145,31 +149,30 @@ function MainSearchProjectsPage() {
           </Grid>
         </Grid>
       </Grid>
-
       <div>
         <Grid container justifyContent="center" style={{ paddingTop: "50px" }}>
-          <TableContainer component={Paper} sx={{ width: 1200 }}>
-            <Table sx={{ width: 1200 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Model Name </StyledTableCell>
-                  <StyledTableCell align="center">
-                  Based Example
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    MT Aproach used
-                  </StyledTableCell>
-                  <StyledTableCell align="center">Heuristic</StyledTableCell>
-                  <StyledTableCell align="center">
-                    Target Model Reprisentation{" "}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    Source Model Reprisentation
-                  </StyledTableCell>
-              
-                </TableRow>
-              </TableHead>
-              <TableBody>
+            <TableContainer component={Paper} sx={{ width: 1200 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Model Name </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Based Example
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      MT Aproach used
+                    </StyledTableCell>
+                    <StyledTableCell align="center">Heuristic</StyledTableCell>
+                    <StyledTableCell align="center">
+                      Target Model Reprisentation{" "}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Source Model Reprisentation
+                    </StyledTableCell>
+                    <StyledTableCell align="center">Edit Model</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {dataModels
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
@@ -192,7 +195,7 @@ function MainSearchProjectsPage() {
                               <Link
                                   onClick={() => handelNavigateToTargetModel(row)}
                                 style={{ textDecoration: "none" }}
-                                to="target-reprisontation"
+                                to="edit-target-reprisontation"
                               >
                                 {" "}
                                 View
@@ -204,22 +207,33 @@ function MainSearchProjectsPage() {
                               <Link
                                   onClick={() => handelNavigateToSourceModel(row)}
                                 style={{ textDecoration: "none" }}
-                                to="source-reprisontation"
+                                to="edit-source-reprisontation"
                               >
                                 {" "}
                                 View
                               </Link>
                             }
                           </StyledTableCell>
-                       
+                          <StyledTableCell align="center">
+                            {
+                              <Link
+                                  onClick={() => handelNavigateToEditPage(row)}
+                                style={{ textDecoration: "none" }}
+                                to="edit-page"
+                              >
+                                {" "}
+                                Go Edit
+                              </Link>
+                            }
+                          </StyledTableCell>
                         </StyledTableRow>
                       );
                     })}
                 </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-              rowsPerPageOptions={[6,12]}
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 6]}
               component="div"
               count={dataModels.length}
               rowsPerPage={rowsPerPage}
@@ -227,9 +241,11 @@ function MainSearchProjectsPage() {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
+  
         </Grid>
       </div>
     </div>
   );
 }
-export default MainSearchProjectsPage;
+
+export default MainCollaborateProjectsPage;

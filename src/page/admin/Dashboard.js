@@ -21,6 +21,9 @@ const username = sessionStorage.getItem("userName");
   const handelNavigationToSearch = () => {
     navigate("/admin-dashboard/main-search");
   };
+  const handelNavigationToCollaborate = () => {
+    navigate("/admin-dashboard/main-collaborate");
+  };
 
   return (
     <div>
@@ -125,7 +128,7 @@ const username = sessionStorage.getItem("userName");
               </span>
 
               <Grid style={{ paddingTop: "15px" }}>
-                <button className="project-button">
+                <button className="project-button" onClick={handelNavigationToCollaborate}>
                   {" "}
                   Projects
                   <Grid style={{ paddingTop: "25px" }}>

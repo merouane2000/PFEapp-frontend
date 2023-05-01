@@ -15,6 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#393E46",
@@ -49,6 +50,17 @@ function SourceModelReprisentation() {
   const [relationship, setRelationShip] = useState([]);
   const [openDialog, setopenDialog] = React.useState(false);
   const [currentTabel, setCurrentTable] = useState();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const handleClickopenDialog = (data) => {
     setopenDialog(true);
@@ -406,6 +418,28 @@ function SourceModelReprisentation() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {relationship
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      return (
+                        <StyledTableRow key={row.index}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.From}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.type}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.To}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })}
+                </TableBody>
+                {/* <TableBody>
                   {relationship.map((row, index) => (
                     <StyledTableRow key={row.index}>
                       <StyledTableCell component="th" scope="row">
@@ -420,9 +454,20 @@ function SourceModelReprisentation() {
                       <StyledTableCell align="center">{row.To}</StyledTableCell>
                     </StyledTableRow>
                   ))}
-                </TableBody>
+                </TableBody> */}
               </Table>
             </TableContainer>
+            <div style={{ paddingRight: "521px" }}>
+              <TablePagination
+                rowsPerPageOptions={[2, 3]}
+                component="div"
+                count={relationship.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </div>
           </div>
         </Grid>
       </div>
