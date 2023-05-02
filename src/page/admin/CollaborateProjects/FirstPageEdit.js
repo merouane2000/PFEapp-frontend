@@ -3,6 +3,8 @@ import { AppContext } from "../../../Contexts/AppContext";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import CustomEditRationalDiagramDialog from "../../../compoments/CustomEditRationalDiagramDialog";
+import CustomEditClassDiagramDialog from "../../../compoments/CustomEditClassDiagramDialog";
 
 function FirstPageEdit() {
   const { editTables, setEditTables, editEntities, setEditEntities,currentStepEdit,setStepEdit } =
@@ -15,9 +17,10 @@ function FirstPageEdit() {
         "http://localhost:4000/get-selected-source-model",
         { _id_source: selected_Id }
       );
+      setEditTables(response.data)
     //   setRelationShip(response.data.relationshipSource);
     //   setSourceTable(response.data.tablesSource);
-    console.log(response.data)
+    console.log(editTables)
     }
     getTableData();
   }, []);
@@ -28,14 +31,40 @@ function FirstPageEdit() {
         "http://localhost:4000/get-selected-target-model",
         { _id_target: selected_Id }
       );
+      setEditEntities(response.data)
     //   setAssociation(response.data.associationTarget);
     //   setTargetEntities(response.data.entitiesTarget);
-    console.log(response.data)
+    console.log(editEntities)
     }
     getTableData();
   }, []);
 
   return <div>
+     <div style={{ paddingTop: "40px" }}>
+              <Grid container direction="row" justifyContent="space-around">
+                <Grid >
+                  <span  style={{
+                  fontSize: 20,
+                  fontWeight: 400,
+                  color: "#393E46",
+                  textAlign: "center",
+                  paddingLeft: "14px",
+                }}>Tables</span>
+                 <CustomEditClassDiagramDialog prop1={editTables} />
+                </Grid>
+                <Grid>
+                  <span  style={{
+                  fontSize: 20,
+                  fontWeight: 400,
+                  color: "#393E46",
+                  textAlign: "center",
+                  paddingLeft: "14px",
+                }}>Entities</span>
+                <CustomEditRationalDiagramDialog prop1={editEntities}/>
+                </Grid>
+                
+              </Grid>
+            </div>
     <div style={{ paddingTop: "40px" }}>
               <Grid
                 container
@@ -62,6 +91,7 @@ function FirstPageEdit() {
                 </button>
               </Grid>
             </div>
+           
   </div>;
 }
 
