@@ -5,56 +5,22 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import axios from "axios";
 import { AppContext } from "../Contexts/AppContext";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import Chip from "@mui/material/Chip";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
-const InitialValues = {
-  entityName: "",
-  cardinalty: "",
-};
 
-function CustomEditRationalDiagramDialog(props) {
-  const [values, setValues] = useState(InitialValues);
+function CustomEditRationalDiagramDialog() {
+  const {  editEntities } =
+    useContext(AppContext);
+
   const [attribute, setAttribute] = useState([]);
   const [attributeSet, setAttributeSet] = useState([]);
-  const [data, setData] = useState([]);
   const [nameE, setNameE] = useState('');
   const [dataCardinality, setDataCardinality] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [dataClone, setDataClone] = useState([]);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const metaModel_id = sessionStorage.getItem("MetaModelID");
-  const {
-    entityContent,
-    setEntityContent,
-    entitiesContent,
-    setEntitiesContent,
-  } = useContext(AppContext);
-
-  const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
   const handleChangeAttribute = (e) => {
     setAttribute({
       ...attribute,
@@ -67,55 +33,26 @@ function CustomEditRationalDiagramDialog(props) {
       setAttribute([]);
     }
   };
-  useEffect(() => {
-    setData(props.prop1.entitiesTarget);
-    
-  }, []);
 
-  useEffect(() => {
-    console.log(entitiesContent);
-  }, [entityContent, entitiesContent]);
-
-  const handleSubmitAndNext = async (e) => {
-    e.preventDefault();
-    const contexObj = {
-      name: values.entityName,
-      cardinality: values.cardinalty,
-      attributes: attributeSet,
-    };
-    setEntityContent(contexObj);
-    setEntitiesContent([...entitiesContent, entityContent]);
-
-    try {
-      const response = await axios.post("http://localhost:4000/entity-create", {
-        attributeData: attributeSet,
-        name: values.entityName,
-        cardinality: values.cardinalty,
-        metaModel_ID: metaModel_id,
-      });
-      if (response.data.isCreate) {
-        console.log("succuss to create Entities");
-        handleClick();
-        setopenDialog(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmitAndNext =  () => {
+    setopenDialog(false);
   };
 
   const [openDialog, setopenDialog] = React.useState(false);
 
   const handleClickopenDialog = (selectedEntity) => {
     setopenDialog(true);
-    console.log(selectedEntity);
     setAttributeSet([...selectedEntity.attribute]);
-    setDataCardinality(selectedEntity.cardinalty)
     setNameE(selectedEntity.name)
+    setDataCardinality(selectedEntity.cardinalty)
+    setDataClone([selectedEntity])
+
   };
 
   const handleCloseDialogAndCancelReq = () => {
     setopenDialog(false);
   };
+ 
 
   const handleDeleteAttribute = (index) => {
     const deleteDataAtrribute = [...attributeSet];
@@ -130,8 +67,8 @@ function CustomEditRationalDiagramDialog(props) {
                     justifyContent="center"
                     direction="row"
                     gap={1}>
-          {data != null ? (
-            data.map((entity) => (
+          {(editEntities.entitiesTarget) != null ? (
+            (editEntities.entitiesTarget).map((entity) => (
               <Chip
                 label={entity.name}
                 variant="outlined"
@@ -148,9 +85,10 @@ function CustomEditRationalDiagramDialog(props) {
           ) : (
             <></>
           )}
-          {data != null ? (
+          {dataClone != null ? (
             <Dialog open={openDialog} onClose={handleCloseDialogAndCancelReq}>
-              <form onSubmit={handleSubmitAndNext}>
+       
+                
                 <Grid container justifyContent="center" direction="column">
                   <Grid container justifyContent="center">
                     <span
@@ -168,7 +106,8 @@ function CustomEditRationalDiagramDialog(props) {
                   <Grid container justifyContent="center">
                     <input
                       className="input-Dialog"
-                      onChange={handleChange}
+                   
+                      onChange={(e)=>{setNameE(e.target.value)}}
                       name="entityName"
                       required
                       value={nameE}
@@ -257,23 +196,23 @@ function CustomEditRationalDiagramDialog(props) {
                   </div>
                 </Grid>
                 <DialogContent>
-                  <div>
+                  <div  style={{paddingLeft:"70px"}}>
                     <ol>
                       {attributeSet.map((data, index) => (
                         <li key={index}>
                           <Grid
                             container
                             direction="row"
-                            justifyContent="space-evenly"
+                            justifyContent="center"
                           >
-                            <Grid md={6}>
+                            <Grid md={6} style={{paddingTop:"5px"}}>
                               <span style={{ paddingTop: "7px" }}>
                                 {data.attributeName +
                                   " : " +
                                   data.attributeType}{" "}
                               </span>
                             </Grid>
-                            <Grid md={6}>
+                            <Grid md={6} style={{paddingTop:"5px"}}>
                               <button
                                 className="logout-button"
                                 style={{ height: "32px" }}
@@ -296,6 +235,7 @@ function CustomEditRationalDiagramDialog(props) {
                                 </Grid>
                               </button>
                             </Grid>
+                            
                           </Grid>
                         </li>
                       ))}
@@ -331,7 +271,6 @@ function CustomEditRationalDiagramDialog(props) {
                         </span>
                         <select
                           className="input-Dialog-littel"
-                          onChange={handleChange}
                           name="cardinalty"
                         >
                           <option value={dataCardinality}>{dataCardinality}</option>
@@ -354,42 +293,21 @@ function CustomEditRationalDiagramDialog(props) {
                     Undo
                   </button>
                   <button
-                    type="submit"
+                    // type="submit"
                     style={{ height: "32px" }}
                     className="logout-button"
+                    onClick={handleSubmitAndNext}
                   >
                     Save
                   </button>
                 </DialogActions>
-              </form>
+   
             </Dialog>
           ) : (
             <></>
           )}
         </Grid>
       </Grid>
-      <Snackbar
-        style={{ borderRadius: "30px" }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity="info"
-          variant="filled"
-          style={{
-            width: "400px",
-            height: "36px",
-            backgroundColor: "#2196f3",
-            color: "#2196f3",
-          }}
-        >
-          <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-            You created an entity in your model successfully
-          </span>
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

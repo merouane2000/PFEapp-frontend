@@ -18,9 +18,7 @@ function SecondPage() {
   const { setStep, tableContent, entitiesContent } = useContext(AppContext);
   const metamodel_ID = sessionStorage.getItem("MetaModelID");
 
-  // const handleClickchip = () => {
-  //   console.info(entitiesContent);
-  // };
+ 
   const [values, setValues] = useState(InitialValues);
 
   const handelUpdate = async () => {
@@ -52,7 +50,7 @@ function SecondPage() {
     <div>
      
         <div>
-          {/* <CustomChip/> */}
+  
           <div style={{ paddingTop: "35px" }}>
             <Grid
               container
