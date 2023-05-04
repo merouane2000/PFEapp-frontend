@@ -45,9 +45,9 @@ console.log(userData)
         submitEntityData,
         setEntitiesContent,
         editTables,
-        setEditTables,
         editEntities,
-        setEditEntities
+        setEditTables,
+        setEditEntities,
       }}
       >  
       {props.children} 
