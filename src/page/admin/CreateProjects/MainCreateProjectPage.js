@@ -90,7 +90,7 @@ function MainCreateProjectPage() {
                 fontFamily: "Outfit",
               }}
             >
-             Update and fill Tables/Entities in model
+             Update and fill Classes/Tables in model
             </span>
           </StepLabel>
         </Step>
@@ -106,7 +106,7 @@ function MainCreateProjectPage() {
               }}
             >
               {" "}
-              Connect your tables/entities{" "}
+              Connect your Classes{" "}
             </span>
           </StepLabel>
         </Step>

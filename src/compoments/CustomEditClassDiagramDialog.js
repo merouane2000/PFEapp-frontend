@@ -109,7 +109,7 @@ function CustomEditClassDiagramDialog() {
                       fontFamily: "Outfit",
                     }}
                   >
-                    Entity Name{" "}
+                    Class Name{" "}
                   </span>
                 </Grid>
                 <Grid container justifyContent="center">
@@ -373,44 +373,6 @@ function CustomEditClassDiagramDialog() {
                     ))}
                   </ol>
                 </div>
-                <hr
-                  style={{
-                    width: "500px",
-                    height: "1px",
-                    background: "black",
-                  }}
-                />
-                <Grid container justifyContent="center">
-                  <span
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 400,
-                      color: "#393E46",
-                      textAlign: "center",
-                      fontFamily: "Outfit",
-                    }}
-                  >
-                    Cardinalty{" "}
-                  </span>
-                </Grid>
-                <Grid container justifyContent="center">
-                  <div>
-                    <Grid container direction="column">
-                      <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                        Cardinalty
-                      </span>
-                      <select className="input-Dialog-littel" name="cardinalty">
-                        <option value={dataCardinality}>
-                          {dataCardinality}
-                        </option>
-                        <option value="1..*">"1..*"</option>
-                        <option value="0..1">"0..1"</option>
-                        <option value="*">"*"</option>
-                        <option value="1">"1"</option>
-                      </select>
-                    </Grid>
-                  </div>
-                </Grid>
               </DialogContent>
               <DialogActions>
                 <button

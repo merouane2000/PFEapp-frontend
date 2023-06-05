@@ -76,7 +76,7 @@ function FirstPage() {
                   placeholder="Enter Model Name"
                 />
               </Grid>
-              <Grid md={4}>
+              {/* <Grid md={4}>
                 <span
                   style={{
                     fontSize: 20,
@@ -104,7 +104,7 @@ function FirstPage() {
                   </option>
                   <option value="SM">Source Model</option>
                 </select>
-              </Grid>
+              </Grid> */}
               <Grid md={4}>
                 <span
                   style={{
@@ -136,7 +136,7 @@ function FirstPage() {
                 rowGap={20}
                 columnGap={8.75}
               >
-                <Grid direction="column">
+                {/* <Grid direction="column">
                   <Grid>
                     <span
                       style={{
@@ -150,7 +150,7 @@ function FirstPage() {
                     </span>
                   </Grid>
 
-                  <select
+                   <select
                     className="Select-input"
                     onChange={handleChange}
                     name="UsedApproach"
@@ -169,8 +169,8 @@ function FirstPage() {
                     <option value="SaadaApproach">Saada Approach</option>
                     <option value="FaunesApproach">Faunes Approach</option>
                     <option value="BakiApproach">Baki Approach</option>
-                  </select>
-                </Grid>
+                  </select> 
+                </Grid> */}
               </Grid>
             </div>
             <div style={{ paddingTop: "40px" }}>

@@ -1,65 +1,3 @@
-// import React, { useState, useContext, useEffect } from "react";
-// import Grid from "@mui/material/Grid";
-// import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-// import { AppContext } from "../../../Contexts/AppContext";
-
-// function SecondPageEdit() {
-//     const { editTables, setEditTables, editEntities, setEditEntities,currentStepEdit,setStepEdit } =
-//     useContext(AppContext);
-//     return ( <div>
-
-// <div
-//             style={{
-//               paddingTop: "40px",
-//             }}
-//           >
-//             <Grid
-//               container
-//               direction="row"
-//               justifyContent="center"
-//               style={{ columnGap: "25px" }}
-//             >
-//               <button
-//                 className="logout-button"
-//                 onClick={() => {
-//                     setStepEdit(1);
-//                 }}
-//               >
-//                 <Grid
-//                   container
-//                   justifyContent="center"
-//                   style={{ paddingTop: "20px" }}
-//                   spacing={2}
-//                 >
-//                   <Grid>
-//                     <NavigateBeforeIcon
-//                       style={{ paddingLeft: "3px" }}
-//                       fontSize="small"
-//                     />
-//                   </Grid>
-//                   <Grid>Prev</Grid>
-//                 </Grid>
-//               </button>
-//               <button className="logout-button">
-//                 <Grid
-//                   container
-//                   justifyContent="center"
-//                   style={{ paddingTop: "20px", paddingLeft: "20px" }}
-//                   spacing={2}
-//                 >
-//                   <Grid>Submit</Grid>
-//                   <Grid>
-//                     <KeyboardArrowUpIcon fontSize="small" />
-//                   </Grid>
-//                 </Grid>
-//               </button>
-//             </Grid>
-//           </div>
-//     </div> );
-// }
-
-// export default SecondPageEdit;
 import React, { useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -128,7 +66,7 @@ function SecondPageEdit() {
     });
   };
   const handelSubmite = () => {
-    if (dataTable.length !== 0 || dataEntity.length !== 0) {
+    if (dataTable.length !== 0) {
       handleClick();
     } else {
       navigate("/admin-dashboard");
@@ -221,7 +159,7 @@ function SecondPageEdit() {
                         textAlign: "center",
                       }}
                     >
-                      Your Tables
+                      Your Classes
                     </span>
                   </Grid>
                   <Grid
@@ -257,7 +195,7 @@ function SecondPageEdit() {
                         <span
                           style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
                         >
-                          You have related all the tables
+                          You have related all the Classes
                         </span>
                       </Alert>
                     )}
@@ -265,71 +203,7 @@ function SecondPageEdit() {
                 </Grid>
               </div>
             </Grid>
-            <Grid md={4}>
-              <div>
-                <Grid container justifyContent="center" gap={2}>
-                  <Grid>
-                    {" "}
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Your Entities
-                    </span>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid
-                      container
-                      justifyContent="center"
-                      direction="row"
-                      gap={1}
-                    >
-                      {dataEntity.length !== 0 ? (
-                        dataEntity.map((data) => (
-                          <Chip
-                            label={data.name}
-                            variant="outlined"
-                            style={{
-                              fontFamily: "Outfit",
-                              fontWeight: 600,
-                              color: "#393E46",
-                            }}
-                          />
-                        ))
-                      ) : (
-                        <Alert
-                          severity="info"
-                          variant="filled"
-                          style={{
-                            borderRadius: "35px",
-                            width: "280px",
-                            height: "36px",
-                            backgroundColor: "#2196f3",
-                            color: "#2196f3",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span
-                            style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
-                          >
-                            You have associated all the entities
-                          </span>
-                        </Alert>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid>
+     
           </Grid>
           <Grid
             container
@@ -350,7 +224,7 @@ function SecondPageEdit() {
                         textAlign: "center",
                       }}
                     >
-                      Tables Relationships
+                      Classes Relationships
                     </span>
                   </Grid>
                   <Grid
@@ -385,6 +259,33 @@ function SecondPageEdit() {
                         </select>
                       </Grid>
                     </Grid>
+                    <Grid direction="column">
+                      <Grid>
+                        <span
+                          style={{
+                            fontSize: 17,
+                            fontWeight: 600,
+                            color: "#393E46",
+                            textAlign: "center",
+                          }}
+                        >
+                          Cardinalty
+                        </span>
+                      </Grid>
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChangeTable}
+                          name="RelationShipCardinalty"
+                        >
+                         
+                          <option value="">--Select--</option>
+                          <option value="1..*">"1..*"</option>
+                          <option value="0..1">"0..1"</option>
+                          <option value="*">"*"</option>
+                          <option value="1">"1"</option>
+                        </select>
+                      </Grid>
+           
 
                     <Grid direction="column">
                       <Grid>
@@ -485,127 +386,7 @@ function SecondPageEdit() {
                 </Grid>
               </div>
             </Grid>
-            <Grid md={4}>
-              <div>
-                <Grid container justifyContent="center" gap={2}>
-                  <Grid>
-                    {" "}
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Entities Associations
-                    </span>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          From
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <select
-                          className="input-Dialog-littel"
-                          onChange={handleChange}
-                          name="AssociationFrom"
-                        >
-                          <option value="/">--Select--</option>
-                          {dataEntity.map((data) => (
-                            <option value={data.name}>{data.name}</option>
-                          ))}
-                        </select>
-                      </Grid>
-                    </Grid>
-
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          To
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <select
-                          className="input-Dialog-littel"
-                          onChange={handleChange}
-                          name="AssociationTo"
-                        >
-                          <option value="/">--Select--</option>
-                          {dataEntity.map((data) => (
-                            <option value={data.name}>{data.name}</option>
-                          ))}
-                        </select>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          Name
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <input
-                          style={{ width: "150px", height: "24px" }}
-                          className="input-Dialog-littel-nrml"
-                          onChange={handleChange}
-                          name="AssociationName"
-                          placeholder="Name"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <div>
-                    <Grid>
-                      <button
-                        className="logout-button"
-                        style={{ width: "200px" }}
-                        onClick={handelUpdateAssociation}
-                      >
-                        Add Association{" "}
-                      </button>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </Grid>
+       
           </Grid>
           <div
             style={{
@@ -678,3 +459,4 @@ function SecondPageEdit() {
 }
 
 export default SecondPageEdit;
+

@@ -72,7 +72,7 @@ function ThirdPage() {
     });
   };
   const handelSubmite = () => {
-    if (dataTable.length !== 0 || dataEntity.length !== 0) {
+    if (dataTable.length !== 0 ) {
       handleClick();
     } else {
       navigate("/admin-dashboard");
@@ -183,7 +183,7 @@ function ThirdPage() {
                         textAlign: "center",
                       }}
                     >
-                      Your Tables
+                      Your Classes
                     </span>
                   </Grid>
                   <Grid
@@ -227,7 +227,7 @@ function ThirdPage() {
                 </Grid>
               </div>
             </Grid>
-            <Grid md={4}>
+            {/* <Grid md={4}>
               <div>
                 <Grid container justifyContent="center" gap={2}>
                   <Grid>
@@ -291,7 +291,7 @@ function ThirdPage() {
                   </Grid>
                 </Grid>
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid
             container
@@ -312,7 +312,7 @@ function ThirdPage() {
                         textAlign: "center",
                       }}
                     >
-                      Tables Relationships
+                      Classes Relationships
                     </span>
                   </Grid>
                   <Grid
@@ -347,6 +347,34 @@ function ThirdPage() {
                         </select>
                       </Grid>
                     </Grid>
+                
+                      <Grid direction="column">
+                      <Grid>
+                        <span
+                          style={{
+                            fontSize: 17,
+                            fontWeight: 600,
+                            color: "#393E46",
+                            textAlign: "center",
+                          }}
+                        >
+                          Cardinalty
+                        </span>
+                      </Grid>
+                        <select
+                          className="input-Dialog-littel"
+                          onChange={handleChangeTable}
+                          name="RelationShipCardinalty"
+                        >
+                         
+                          <option value="">--Select--</option>
+                          <option value="1..*">"1..*"</option>
+                          <option value="0..1">"0..1"</option>
+                          <option value="*">"*"</option>
+                          <option value="1">"1"</option>
+                        </select>
+                      </Grid>
+           
 
                     <Grid direction="column">
                       <Grid>
@@ -447,7 +475,7 @@ function ThirdPage() {
                 </Grid>
               </div>
             </Grid>
-            <Grid md={4}>
+            {/* <Grid md={4}>
               <div>
                 <Grid container justifyContent="center" gap={2}>
                   <Grid>
@@ -567,7 +595,7 @@ function ThirdPage() {
                   </div>
                 </Grid>
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
           <div
             style={{

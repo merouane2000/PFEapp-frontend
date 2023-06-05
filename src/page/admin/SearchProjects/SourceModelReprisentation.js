@@ -137,7 +137,7 @@ function SourceModelReprisentation() {
                     textAlign: "center",
                   }}
                 >
-                  Source Model Tables
+                  Source Model Classes
                 </span>
               </Grid>
               <Grid>
@@ -165,7 +165,8 @@ function SourceModelReprisentation() {
                         />
                       ))}
                       {currentTabel != null ? (
-                        <Dialog
+                        <Dialog 
+                      
                           open={openDialog}
                           onClose={handleCloseDialogAndCancelReq}
                         >
@@ -188,7 +189,7 @@ function SourceModelReprisentation() {
                                   fontFamily: "Outfit",
                                 }}
                               >
-                                Table Name{" "}
+                                Class Name{" "}
                               </span>
 
                               <span
@@ -206,7 +207,7 @@ function SourceModelReprisentation() {
                             </Grid>
                             <hr
                               style={{
-                                width: "500px",
+                                width: "350px",
                                 height: "1px",
                                 background: "black",
                               }}
@@ -250,15 +251,17 @@ function SourceModelReprisentation() {
                                   </li>
                                 </ul>
                               ))}
-                            </div>
-                            <hr
-                              style={{
-                                width: "500px",
+                              
+                             <hr
+                             style={{
+                             
                                 height: "1px",
                                 background: "black",
-                              }}
+                              }} 
                             />
-                            <Grid container justifyContent="center">
+
+                            
+                           <Grid container justifyContent="center">
                               <span
                                 style={{
                                   fontSize: 20,
@@ -295,45 +298,7 @@ function SourceModelReprisentation() {
                                 </ul>
                               ))}
                             </div>
-                            <hr
-                              style={{
-                                width: "500px",
-                                height: "1px",
-                                background: "black",
-                              }}
-                            />
-
-                            <Grid container justifyContent="center">
-                              <span
-                                style={{
-                                  fontSize: 20,
-                                  fontWeight: 400,
-                                  color: "#393E46",
-                                  textAlign: "center",
-                                  fontFamily: "Outfit",
-                                }}
-                              >
-                                Multiplicity{" "}
-                              </span>
-                            </Grid>
-                            <Grid container justifyContent="center">
-                              <div>
-                                <Grid container direction="column">
-                                  <span
-                                    style={{
-                                      fontSize: 17,
-                                      fontWeight: 600,
-                                      color: "#393E46",
-                                      textAlign: "center",
-                                      fontFamily: "Outfit",
-                                      paddingTop: "5px",
-                                    }}
-                                  >
-                                    {currentTabel.multiplicity}
-                                  </span>
-                                </Grid>
-                              </div>
-                            </Grid>
+                            </div>
                           </DialogContent>
                           <DialogActions>
                             <button
@@ -341,7 +306,7 @@ function SourceModelReprisentation() {
                               style={{ height: "32px" }}
                               className="logout-button"
                             >
-                              Cancel
+                              Exit
                             </button>
                           </DialogActions>
                         </Dialog>
@@ -415,6 +380,9 @@ function SourceModelReprisentation() {
                       RelationShip Type
                     </StyledTableCell>
                     <StyledTableCell align="center">To</StyledTableCell>
+                    <StyledTableCell align="center">
+                      Cardinalty
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -429,32 +397,20 @@ function SourceModelReprisentation() {
                           <StyledTableCell align="center">
                             {row.name}
                           </StyledTableCell>
+                         
                           <StyledTableCell align="center">
                             {row.type}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.To}
                           </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.cardinalty}
+                          </StyledTableCell>
                         </StyledTableRow>
                       );
                     })}
                 </TableBody>
-                {/* <TableBody>
-                  {relationship.map((row, index) => (
-                    <StyledTableRow key={row.index}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.From}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.type}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">{row.To}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody> */}
               </Table>
             </TableContainer>
             <div style={{ paddingRight: "521px" }}>

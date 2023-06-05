@@ -55,7 +55,7 @@ function FirstPageEdit() {
                 paddingLeft: "14px",
               }}
             >
-              Tables
+              Classes
             </span>
             <CustomEditClassDiagramDialog prop1={editTables} />
           </Grid>
@@ -69,78 +69,13 @@ function FirstPageEdit() {
                 paddingLeft: "14px",
               }}
             >
-              Entities
+              Tables
             </span>
             <CustomEditRationalDiagramDialog prop1={editEntities} />
           </Grid>
         </Grid>
       </div>
-      <div
-        style={{
-          paddingTop: "20px",
-          paddingLeft: "310px",
-        }}
-      >
-        <Grid container justifyContent="center" direction="row">
-          <Grid direction="column" md={6}>
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 400,
-                color: "#393E46",
-                textAlign: "center",
-              }}
-            >
-              Used approach
-            </span>
-            <Grid>
-              <select
-                className="Select-input"
-                style={{ width: "200px" }}
-                // onChange={handleChange}
-                name="UsedApproach"
-                required
-              >
-                <option value="/">--Select--</option>
-                <option value="varroApproach">Varro Approach</option>
-                <option value=" WimmerApproach"> Wimmer Approach</option>
-                <option value="StrommerApproach">Strommer Approach</option>
-                <option value=" KassentiniApproach">Kassentini Approach</option>
-                <option value=" BaloghApproach">Balogh Approach </option>
-                <option value="GarciaApproach">Garcia Approach</option>
-                <option value="DeloquesApproach">Deloques Approach</option>
-                <option value="SaadaApproach">Saada Approach</option>
-                <option value="FaunesApproach">Faunes Approach</option>
-                <option value="BakiApproach">Baki Approach</option>
-              </select>
-            </Grid>
-          </Grid>
-
-          <Grid direction="column" md={6}>
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 400,
-                color: "#393E46",
-                textAlign: "center",
-                paddingRight: "275px",
-              }}
-            >
-              The Example{" "}
-            </span>
-            <Grid>
-              <input
-                style={{ width: "170px " }}
-                className="input-log-in"
-                name="example"
-                // onChange={handleChange}
-                required
-                placeholder="Enter your example"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
+   
       <div    style={{
           paddingTop: "20px",
           paddingLeft: "460px",

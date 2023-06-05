@@ -137,7 +137,7 @@ function TargetModelReprisentation() {
                     textAlign: "center",
                   }}
                 >
-                  Target Model Entities
+                  Target Model Tables
                 </span>
               </Grid>
               <Grid>
@@ -188,7 +188,7 @@ function TargetModelReprisentation() {
                                   fontFamily: "Outfit",
                                 }}
                               >
-                                Entity Name{" "}
+                                Table Name{" "}
                               </span>
 
                               <span
@@ -206,7 +206,7 @@ function TargetModelReprisentation() {
                             </Grid>
                             <hr
                               style={{
-                                width: "500px",
+                                width: "350px",
                                 height: "1px",
                                 background: "black",
                               }}
@@ -241,7 +241,8 @@ function TargetModelReprisentation() {
                                         paddingTop: "5px",
                                       }}
                                     >
-                                      {"   " +
+                                      {" " + dataATT.attributeKey
+                                      +" | " +
                                         dataATT.attributeName +
                                         "   : " +
                                         dataATT.attributeType}
@@ -250,44 +251,6 @@ function TargetModelReprisentation() {
                                 </ul>
                               ))}
                             </div>
-                            <hr
-                              style={{
-                                width: "500px",
-                                height: "1px",
-                                background: "black",
-                              }}
-                            />
-                            <Grid container justifyContent="center">
-                              <span
-                                style={{
-                                  fontSize: 20,
-                                  fontWeight: 400,
-                                  color: "#393E46",
-                                  textAlign: "center",
-                                  fontFamily: "Outfit",
-                                }}
-                              >
-                                Cardinalty{" "}
-                              </span>
-                            </Grid>
-                            <Grid container justifyContent="center">
-                              <div>
-                                <Grid container direction="column">
-                                  <span
-                                    style={{
-                                      fontSize: 17,
-                                      fontWeight: 600,
-                                      color: "#393E46",
-                                      textAlign: "center",
-                                      fontFamily: "Outfit",
-                                      paddingTop: "5px",
-                                    }}
-                                  >
-                                    {currentTabel.cardinalty}
-                                  </span>
-                                </Grid>
-                              </div>
-                            </Grid>
                           </DialogContent>
                           <DialogActions>
                             <button
@@ -295,7 +258,7 @@ function TargetModelReprisentation() {
                               style={{ height: "32px" }}
                               className="logout-button"
                             >
-                              Cancel
+                              Exit
                             </button>
                           </DialogActions>
                         </Dialog>

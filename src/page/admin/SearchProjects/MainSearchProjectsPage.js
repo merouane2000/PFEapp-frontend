@@ -156,10 +156,7 @@ function MainSearchProjectsPage() {
                   <StyledTableCell align="center">
                   Based Example
                   </StyledTableCell>
-                  <StyledTableCell align="center">
-                    MT Aproach used
-                  </StyledTableCell>
-                  <StyledTableCell align="center">Heuristic</StyledTableCell>
+                  <StyledTableCell align="center">QoS</StyledTableCell>
                   <StyledTableCell align="center">
                     Target Model Reprisentation{" "}
                   </StyledTableCell>
@@ -180,9 +177,6 @@ function MainSearchProjectsPage() {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.example}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.approachUsed}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.heuristic}

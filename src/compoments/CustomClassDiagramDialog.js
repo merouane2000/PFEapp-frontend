@@ -128,7 +128,7 @@ function CustomClassDiagramDialog() {
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>Add Table</Grid>
+            <Grid style={{ paddingTop: "3px" }}>Add Class</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>
@@ -149,7 +149,7 @@ function CustomClassDiagramDialog() {
                   fontFamily: "Outfit",
                 }}
               >
-                Table Name{" "}
+                Class Name{" "}
               </span>
             </Grid>
             <Grid container justifyContent="center">
@@ -163,7 +163,7 @@ function CustomClassDiagramDialog() {
                 name="tableName"
                 value={nameTable}
                 required
-                placeholder="Enter your table name"
+                placeholder="Enter your Class name"
               />
             </Grid>
             <hr
@@ -270,20 +270,22 @@ function CustomClassDiagramDialog() {
               <ol>
                 {allDataAttribute.map((data, index) => (
                   <li key={index}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-evenly"
-                    >
-                      <span style={{ paddingTop: "7px" }}>
-                        {data.attributeVisibilty +
+                       <Grid
+                     container
+                     direction="row"
+                   justifyContent="center"
+                   >
+                     <Grid md={9} style={{paddingTop:"5px"}}>
+                       <span style={{ paddingTop: "7px" }}>
+                       {data.attributeVisibilty +
                           " " +
                           data.attributeName +
                           " : " +
                           data.attributeType}{" "}
-                      </span>
-
-                      <button
+                       </span>
+                     </Grid>
+                     <Grid md={3} style={{paddingTop:"5px"}}>
+                     <button
                         className="logout-button"
                         style={{ height: "32px" }}
                         onClick={() => handleDeleteAttribute(index)}
@@ -303,7 +305,8 @@ function CustomClassDiagramDialog() {
                           </Grid>
                         </Grid>
                       </button>
-                    </Grid>
+                     </Grid>  
+                   </Grid>
                   </li>
                 ))}
               </ol>
@@ -388,20 +391,23 @@ function CustomClassDiagramDialog() {
             <div>
               <ol>
                 {allDataMethods.map((datas, index) => (
-                  <li key={index}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-evenly"
-                    >
-                      <span style={{ paddingTop: "7px" }}>
-                        {datas.methodeVisibilty +
+                  <li  key={index}>
+
+                     <Grid
+                     container
+                     direction="row"
+                   justifyContent="center"
+                   >
+                     <Grid md={9} style={{paddingTop:"5px"}}>
+                       <span style={{ paddingTop: "7px" }}>
+                       {datas.methodeVisibilty +
                           " " +
                           datas.methodeName +
                           "()"}{" "}
-                      </span>
-
-                      <button
+                       </span>
+                     </Grid>
+                     <Grid md={3} style={{paddingTop:"5px"}}>
+                     <button
                         className="logout-button"
                         style={{ height: "32px" }}
                         onClick={() => handleDeleteMethode(index)}
@@ -421,54 +427,13 @@ function CustomClassDiagramDialog() {
                           </Grid>
                         </Grid>
                       </button>
-                    </Grid>
+                     </Grid>
+                     
+                   </Grid>
                   </li>
                 ))}
               </ol>
             </div>
-            <hr
-              style={{
-                width: "500px",
-                height: "1px",
-                background: "black",
-              }}
-            />
-            <Grid container justifyContent="center">
-              <span
-                style={{
-                  fontSize: 20,
-                  fontWeight: 400,
-                  color: "#393E46",
-                  textAlign: "center",
-                  fontFamily: "Outfit",
-                }}
-              >
-                Multiplicity{" "}
-              </span>
-            </Grid>
-            <Grid container justifyContent="center">
-              <div>
-                <Grid container direction="column">
-                  <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                    Multiplicity
-                  </span>
-                  <select
-                    className="input-Dialog-littel"
-                    onChange={(e) => {
-                      setcardinalityTable(e.target.value);
-                    }}
-                    value={cardinalityTable}
-                    name="tableMultiplicity"
-                  >
-                    <option value="/">Select</option>
-                    <option value="1..*">"1..*"</option>
-                    <option value="0..1">"0..1"</option>
-                    <option value="*">"*"</option>
-                    <option value="1">"1"</option>
-                  </select>
-                </Grid>
-              </div>
-            </Grid>
           </DialogContent>
           <DialogActions>
             <button
@@ -484,7 +449,7 @@ function CustomClassDiagramDialog() {
               style={{ height: "32px" }}
               className="logout-button"
             >
-              Submit
+              Create
             </button>
           </DialogActions>
         </form>

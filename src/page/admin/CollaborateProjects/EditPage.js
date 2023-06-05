@@ -70,7 +70,7 @@ function EditPage() {
                   fontFamily: "Outfit",
                 }}
               >
-               Edit Tables / Entities{" "}
+               Edit Classes / Tables{" "}
               </span>
             </StepLabel>
           </Step>
@@ -86,7 +86,7 @@ function EditPage() {
                 }}
               >
                 {" "}
-                Edit RelationShips / Associations{" "}
+                Edit RelationShips{" "}
               </span>
             </StepLabel>
           </Step>

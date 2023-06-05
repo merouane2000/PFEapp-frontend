@@ -100,7 +100,7 @@ function CustomEditRationalDiagramDialog() {
                         fontFamily: "Outfit",
                       }}
                     >
-                      Entity Name{" "}
+                      Table Name{" "}
                     </span>
                   </Grid>
                   <Grid container justifyContent="center">
@@ -142,6 +142,22 @@ function CustomEditRationalDiagramDialog() {
                   justifyContent="space-around"
                   style={{ paddingTop: "5px" }}
                 >
+                  
+                  <div>
+              <Grid container direction="column">
+                <span>Key</span>
+                <select
+                  className="input-Dialog-littel"
+                  onChange={handleChangeAttribute}
+                 name="attributeKey"
+             
+                >
+                  <option value="/">--Select--</option>
+                  <option value="_PK">Primary key</option>
+                  <option value="_Fk">Foreign key</option>
+                </select>
+              </Grid>
+            </div>
                   <div>
                     <Grid container direction="column">
                       <span>Attribute name</span>
@@ -207,7 +223,7 @@ function CustomEditRationalDiagramDialog() {
                           >
                             <Grid md={6} style={{paddingTop:"5px"}}>
                               <span style={{ paddingTop: "7px" }}>
-                                {data.attributeName +
+                                {data.attributeKey +" | "+ data.attributeName +
                                   " : " +
                                   data.attributeType}{" "}
                               </span>
@@ -241,47 +257,6 @@ function CustomEditRationalDiagramDialog() {
                       ))}
                     </ol>
                   </div>
-                  <hr
-                    style={{
-                      width: "500px",
-                      height: "1px",
-                      background: "black",
-                    }}
-                  />
-                  <Grid container justifyContent="center">
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                        fontFamily: "Outfit",
-                      }}
-                    >
-                      Cardinalty{" "}
-                    </span>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <div>
-                      <Grid container direction="column">
-                        <span
-                          style={{ paddingTop: "10px", paddingLeft: "20px" }}
-                        >
-                          Cardinalty
-                        </span>
-                        <select
-                          className="input-Dialog-littel"
-                          name="cardinalty"
-                        >
-                          <option value={dataCardinality}>{dataCardinality}</option>
-                          <option value="1..*">"1..*"</option>
-                          <option value="0..1">"0..1"</option>
-                          <option value="*">"*"</option>
-                          <option value="1">"1"</option>
-                        </select>
-                      </Grid>
-                    </div>
-                  </Grid>
                 </DialogContent>
                 <DialogActions>
                   <button

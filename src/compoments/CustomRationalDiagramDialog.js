@@ -129,7 +129,7 @@ function CustomRationalDiagramDialog() {
             justifyContent="center"
             style={{ paddingTop: "0px", columnGap: "25px" }}
           >
-            <Grid style={{ paddingTop: "3px" }}>Add Entity</Grid>
+            <Grid style={{ paddingTop: "3px" }}>Add Table</Grid>
             <Grid>
               <AddCircleOutlineIcon />
             </Grid>
@@ -150,7 +150,7 @@ function CustomRationalDiagramDialog() {
                 fontFamily: "Outfit",
               }}
             >
-              Entity Name{" "}
+              Table Name{" "}
             </span>
           </Grid>
           <Grid container justifyContent="center">
@@ -159,7 +159,7 @@ function CustomRationalDiagramDialog() {
               onChange={handleChange}
               name="entityName"
               required
-              placeholder="Enter your entity name"
+              placeholder="Enter your table name"
             />
           </Grid>
           <hr
@@ -190,6 +190,21 @@ function CustomRationalDiagramDialog() {
           justifyContent="space-around"
           style={{ paddingTop: "5px" }}
         >
+             <div>
+              <Grid container direction="column">
+                <span>Key</span>
+                <select
+                  className="input-Dialog-littel"
+                  onChange={handleChangeAttribute}
+                 name="attributeKey"
+             
+                >
+                  <option value="/">--Select--</option>
+                  <option value="_PK">Primary key</option>
+                  <option value="_Fk">Foreign key</option>
+                </select>
+              </Grid>
+            </div>
           <div>
             <Grid container direction="column">
               <span>Attribute name</span>
@@ -222,6 +237,7 @@ function CustomRationalDiagramDialog() {
               </select>
             </Grid>
           </div>
+       
           <div style={{ paddingTop: "20px" }}>
             <button
               className="logout-button"
@@ -248,77 +264,45 @@ function CustomRationalDiagramDialog() {
             <ol>
               {attributeSet.map((data, index) => (
                 <li key={index}>
-                  <Grid container direction="row" justifyContent="space-evenly">
-                    <span style={{ paddingTop: "7px" }}>
-                      {data.attributeName + " : " + data.attributeType}{" "}
-                    </span>
-
-                    <button
-                      className="logout-button"
-                      style={{ height: "32px" }}
-                      type="button"
-                      onClick={() => handleDeleteAttribute(index)}
-                    >
-                      <Grid
-                        container
-                        justifyContent="center"
-                        style={{
-                          paddingTop: "19px",
-                          paddingLeft: "20px",
-                        }}
-                        spacing={2}
-                      >
-                        <Grid>Delete</Grid>
-                        <Grid paddingLeft="3px">
-                          <DeleteIcon fontSize="small" />
-                        </Grid>
-                      </Grid>
-                    </button>
-                  </Grid>
+                    <Grid
+                            container
+                            direction="row"
+                          justifyContent="center"
+                          >
+                            <Grid md={9} style={{paddingTop:"5px"}}>
+                              <span style={{ paddingTop: "7px" }}>
+                              {data.attributeKey +" | "+ data.attributeName + " : " + data.attributeType}
+                              </span>
+                            </Grid>
+                            <Grid md={3} style={{paddingTop:"5px"}}>
+                              <button
+                                className="logout-button"
+                                style={{ height: "32px" }}
+                                type="button"
+                                onClick={() => handleDeleteAttribute(index)}
+                              >
+                                <Grid
+                                  container
+                                  justifyContent="center"
+                                  style={{
+                                    paddingTop: "19px",
+                                    paddingLeft: "20px",
+                                  }}
+                                  spacing={2}
+                                >
+                                  <Grid>Delete</Grid>
+                                  <Grid paddingLeft="3px">
+                                    <DeleteIcon fontSize="small" />
+                                  </Grid>
+                                </Grid>
+                              </button>
+                            </Grid>
+                            
+                          </Grid>
                 </li>
               ))}
             </ol>
           </div>
-          <hr
-            style={{
-              width: "500px",
-              height: "1px",
-              background: "black",
-            }}
-          />
-          <Grid container justifyContent="center">
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 400,
-                color: "#393E46",
-                textAlign: "center",
-                fontFamily: "Outfit",
-              }}
-            >
-              Cardinalty{" "}
-            </span>
-          </Grid>
-          <Grid container justifyContent="center">
-            <div>
-              <Grid container direction="column">
-                <span style={{ paddingTop: "10px", paddingLeft: "20px" }}>
-                  Cardinalty
-                </span>
-                <select
-                  className="input-Dialog-littel"
-                  onChange={handleChange}
-                  name="cardinalty"
-                >
-                  <option value="/">--Select--</option>
-                  <option value="1..*">"1..*"</option>
-                  <option value="0..1">"0..1"</option>
-                  <option value="*">"*"</option>
-                  <option value="1">"1"</option>
-                </select>
-              </Grid>
-            </div>
-          </Grid>
         </DialogContent>
         <DialogActions>
           <button
@@ -327,14 +311,14 @@ function CustomRationalDiagramDialog() {
             style={{ height: "32px" }}
             className="logout-button"
           >
-            Cancel
+           Cancel
           </button>
           <button
         type="submit"
             style={{ height: "32px" }}
             className="logout-button"
           >
-            Submit
+            Create
           </button>
         </DialogActions>
 
@@ -356,7 +340,7 @@ function CustomRationalDiagramDialog() {
           color: "#2196f3",
         }}>
           <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-          You created an entity in your model successfully
+          You created a Table in your model successfully
           </span>
         </Alert>
       </Snackbar>
