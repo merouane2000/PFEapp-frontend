@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import Grid from "@mui/material/Grid";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import Badge from '@mui/material/Badge';
 import Popper from '@mui/material/Popper';
-
+import axios from "axios";
 import Fade from '@mui/material/Fade';
 import Paper from "@mui/material/Paper";
 function Dashboard() {
@@ -25,8 +25,56 @@ function Dashboard() {
   
 const navigate = useNavigate();
 const username = sessionStorage.getItem("userName");
-const [invisible, setInvisible] = React.useState(false);
+const notificationEdit = localStorage.getItem("selectedModel");
 
+const [invisible, setInvisible] = React.useState(false);
+const [metaModelEdit, setMetaModelEdit] = React.useState();
+const [userEdit, setUserEdit] = React.useState();
+const changes = localStorage.getItem("changedModel")
+
+
+
+//   e.preventDefault();
+//   const contexObj = {
+//     name: values.entityName,
+//     cardinality: values.cardinalty,
+//     attributes: attributeSet,
+//   };
+//   setEntityContent(contexObj);
+//   setEntitiesContent([...entitiesContent, entityContent])
+
+//   try {
+//     const response = await axios.post(
+//       "http://localhost:4000/entity-create",
+//       {
+//         attributeData: attributeSet,
+//         name:values.entityName,
+//         cardinality:values.cardinalty,
+//         metaModel_ID: metaModel_id
+
+//       }
+//     );
+//     if (response.data.isCreate) {
+//       console.log("succuss to create Entities")
+//       handleClick()  
+//       setopenDialog(false);
+
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+useEffect(() => {
+  async function getTableData() {
+    const response = await axios.post("http://localhost:4000/get-edited-models",{notificationEdit});
+    console.log(response.data);
+    setMetaModelEdit(response.data.EditedModel)
+    setUserEdit(response.data.EditedUser)
+ 
+  }
+  getTableData();
+}, []);
 
   const handleReset = () => {
     navigate("/");
@@ -60,9 +108,29 @@ const [invisible, setInvisible] = React.useState(false);
           <Popper id={id} open={open} anchorEl={anchorEl} transition placement="bottom-end">
   {({ TransitionProps }) => (
     <Fade {...TransitionProps} timeout={350}>
-      <Paper style={{width:" 315px",height: "415px" , paddingTop:"8px",paddingLeft:"8px" ,borderRadius:"10px"}}>
-        The content of the Popper.
-      </Paper>
+     <Paper style={{width:" 315px",height: "170px" , paddingTop:"8px",paddingLeft:"8px" ,borderRadius:"10px" }}>
+
+     <div style={{ paddingTop:"10px"}}>
+        The user “{userEdit[0].fullname}”  has viewed or reused your metaModel “{metaModelEdit[0].name}”
+        </div>
+     
+      <div style={{ paddingTop:"10px",     paddingRight:"8px"}}>
+      <hr
+      style={{
+        height: "1px",
+        background: "black"
+      }}
+      />
+      </div>
+  <div  style={{ paddingLeft:"84px"}}>Changes He Made</div>
+  <div style={{ paddingTop:"10px"}}>
+    {changes}
+
+  </div>
+      
+  
+      </Paper> 
+      
     </Fade>
   )}
 </Popper>
@@ -83,21 +151,6 @@ const [invisible, setInvisible] = React.useState(false);
           </Grid>
 
         </Grid>
-   
-        {/* <button className="logout-button" onClick={handleReset}>
-              <Grid
-                container
-                justifyContent="center"
-                style={{ paddingTop: "20px", paddingLeft: "15px" }}
-                spacing={2}
-              >
-                <Grid>Logout</Grid>
-                <Grid>
-                  <LogoutIcon style={{ paddingLeft: "3px" }} fontSize="small" />
-                </Grid>
-              </Grid>
-            </button> */}
-    
       </div>
     
 
