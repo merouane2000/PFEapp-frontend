@@ -91,7 +91,7 @@ function TargetModelReprisentation() {
     <div>
       <Grid container>
         <Grid container justifyContent="space-between">
-          <Grid style={{ paddingTop: "40px", paddingLeft: "75px" }}>
+          <Grid style={{ paddingTop: "80px", paddingLeft: "75px" }}>
             <span
               style={{
                 fontSize: 34,
@@ -124,7 +124,7 @@ function TargetModelReprisentation() {
         </Grid>
       </Grid>
 
-      <div style={{ paddingTop: "20px" }}>
+      <div style={{ paddingTop: "100px" }}>
         <Grid container direction="row" justifyContent="center">
           <Grid>
             <Grid container direction="column">
@@ -302,7 +302,7 @@ function TargetModelReprisentation() {
         </Grid>
       </div>
 
-      <div>
+      {/* <div>
         <Grid container justifyContent="center" direction="column">
           <span
             style={{
@@ -365,7 +365,7 @@ function TargetModelReprisentation() {
             </div>
           </div>
         </Grid>
-      </div>
+      </div> */}
     </div>
   );
 }

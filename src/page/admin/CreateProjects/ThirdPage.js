@@ -219,7 +219,7 @@ function ThirdPage() {
                         <span
                           style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
                         >
-                          You have related all the tables
+                          You have related all the Classes
                         </span>
                       </Alert>
                     )}
@@ -227,71 +227,7 @@ function ThirdPage() {
                 </Grid>
               </div>
             </Grid>
-            {/* <Grid md={4}>
-              <div>
-                <Grid container justifyContent="center" gap={2}>
-                  <Grid>
-                    {" "}
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Your Entities
-                    </span>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid
-                      container
-                      justifyContent="center"
-                      direction="row"
-                      gap={1}
-                    >
-                      {dataEntity.length !== 0 ? (
-                        dataEntity.map((data) => (
-                          <Chip
-                            label={data.name}
-                            variant="outlined"
-                            style={{
-                              fontFamily: "Outfit",
-                              fontWeight: 600,
-                              color: "#393E46",
-                            }}
-                          />
-                        ))
-                      ) : (
-                        <Alert
-                          severity="info"
-                          variant="filled"
-                          style={{
-                            borderRadius: "35px",
-                            width: "280px",
-                            height: "36px",
-                            backgroundColor: "#2196f3",
-                            color: "#2196f3",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span
-                            style={{ fontFamily: "Outfit", color: "#EEEEEE" }}
-                          >
-                            You have associated all the entities
-                          </span>
-                        </Alert>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid> */}
+      
           </Grid>
           <Grid
             container
@@ -475,127 +411,6 @@ function ThirdPage() {
                 </Grid>
               </div>
             </Grid>
-            {/* <Grid md={4}>
-              <div>
-                <Grid container justifyContent="center" gap={2}>
-                  <Grid>
-                    {" "}
-                    <span
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 400,
-                        color: "#393E46",
-                        textAlign: "center",
-                      }}
-                    >
-                      Entities Associations
-                    </span>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          From
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <select
-                          className="input-Dialog-littel"
-                          onChange={handleChange}
-                          name="AssociationFrom"
-                        >
-                          <option value="/">--Select--</option>
-                          {dataEntity.map((data) => (
-                            <option value={data.name}>{data.name}</option>
-                          ))}
-                        </select>
-                      </Grid>
-                    </Grid>
-
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          To
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <select
-                          className="input-Dialog-littel"
-                          onChange={handleChange}
-                          name="AssociationTo"
-                        >
-                          <option value="/">--Select--</option>
-                          {dataEntity.map((data) => (
-                            <option value={data.name}>{data.name}</option>
-                          ))}
-                        </select>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    direction="row"
-                    gap={1}
-                  >
-                    <Grid direction="column">
-                      <Grid>
-                        <span
-                          style={{
-                            fontSize: 17,
-                            fontWeight: 600,
-                            color: "#393E46",
-                            textAlign: "center",
-                          }}
-                        >
-                          Name
-                        </span>
-                      </Grid>
-                      <Grid>
-                        <input
-                          style={{ width: "150px", height: "24px" }}
-                          className="input-Dialog-littel-nrml"
-                          onChange={handleChange}
-                          name="AssociationName"
-                          placeholder="Name"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <div>
-                    <Grid>
-                      <button
-                        className="logout-button"
-                        style={{ width: "200px" }}
-                        onClick={handelUpdateAssociation}
-                      >
-                        Add Association{" "}
-                      </button>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </Grid> */}
           </Grid>
           <div
             style={{
@@ -659,7 +474,7 @@ function ThirdPage() {
           color: "#f44336",
         }}>
           <span style={{ fontFamily: "Outfit", color: "#EEEEEE" }}>
-            You havent finished the links between you tables and entities
+            You havent finished the links between you Calsses
           </span>
         </Alert>
       </Snackbar>

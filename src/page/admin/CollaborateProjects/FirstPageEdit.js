@@ -15,7 +15,9 @@ function FirstPageEdit() {
     currentStepEdit,
     setStepEdit,
   } = useContext(AppContext);
-  const selected_Id = sessionStorage.getItem("selectedModel");
+  const selected_Id = localStorage.getItem("selectedModel");
+
+  const [change , setChang] = useState()
 
   useEffect(() => {
     async function getTableData() {
@@ -40,6 +42,12 @@ function FirstPageEdit() {
     }
     getTableData();
   }, []);
+  const handelNext = () => {
+    setStepEdit(2);
+    localStorage.setItem("changedModel" , change)
+    
+  };
+
 
   return (
     <div>
@@ -99,7 +107,7 @@ function FirstPageEdit() {
               {" "}
               <textarea
                 placeholder="Describe your Changes"
-                // onChange={handleChange}
+              onChange={(e)=>{setChang(e.target.value)}}
                 name="description"
                 required
                 className="textarea"
@@ -117,9 +125,10 @@ function FirstPageEdit() {
         >
           <button
             className="logout-button"
-            onClick={() => {
-              setStepEdit(2);
-            }}
+            onClick={handelNext}
+            // onClick={() => {
+            //   setStepEdit(2);
+            // }}
           >
             <Grid
               container

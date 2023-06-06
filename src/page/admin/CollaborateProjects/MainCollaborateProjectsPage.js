@@ -67,7 +67,8 @@ function MainCollaborateProjectsPage() {
     sessionStorage.setItem("metaModelSource-description", row.description);
   };
   const handelNavigateToEditPage = (row) => {
-    sessionStorage.setItem("selectedModel", row._id);
+    localStorage.setItem("selectedModel", row._id);
+
   };
   const handleBackToHomePage = () => {
     navigate("/admin-dashboard");
@@ -159,10 +160,7 @@ function MainCollaborateProjectsPage() {
                     <StyledTableCell align="center">
                       Based Example
                     </StyledTableCell>
-                    <StyledTableCell align="center">
-                      MT Aproach used
-                    </StyledTableCell>
-                    <StyledTableCell align="center">Heuristic</StyledTableCell>
+                    <StyledTableCell align="center">QoS</StyledTableCell>
                     <StyledTableCell align="center">
                       Target Model Reprisentation{" "}
                     </StyledTableCell>
@@ -183,9 +181,6 @@ function MainCollaborateProjectsPage() {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.example}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.approachUsed}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.heuristic}
