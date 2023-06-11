@@ -12,6 +12,7 @@ import MainCollaborateProjectsPage from "./page/admin/CollaborateProjects/MainCo
 import EditTargetRep from "./page/admin/CollaborateProjects/EditTargetRep";
 import EditSourceRep from "./page/admin/CollaborateProjects/EditSourceRep";
 import EditPage from "./page/admin/CollaborateProjects/EditPage";
+import CodingSource from "./page/admin/SearchProjects/CodingSource";
 
 function App() {
   return (
@@ -53,6 +54,10 @@ function App() {
             <Route
               path="/admin-dashboard/main-collaborate/edit-page"
               element={<EditPage/>}
+            />
+            <Route
+              path="/admin-dashboard/main-Search/coding-page"
+              element={<CodingSource/>}
             />
           </Routes>
         </Router>

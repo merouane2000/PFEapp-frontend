@@ -15,6 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import TablePagination from "@mui/material/TablePagination";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,6 +75,9 @@ function SourceModelReprisentation() {
   const handleBackPage = () => {
     navigate("/admin-dashboard/main-search");
   };
+  const handleCodingPage = () => {
+    navigate("/admin-dashboard/main-Search/coding-page");
+  };
 
   useEffect(() => {
     async function getTableData() {
@@ -105,21 +109,41 @@ function SourceModelReprisentation() {
           </Grid>
           <Grid
             justifyContent="center"
+         
             style={{ paddingTop: "18px", paddingRight: "25px" }}
           >
-            <button className="logout-button" onClick={handleBackPage}>
-              <Grid
-                container
-                justifyContent="center"
-                style={{ paddingTop: "20px", paddingLeft: "15px" }}
-                spacing={2}
-              >
-                <Grid>Home</Grid>
-                <Grid>
-                  <HomeIcon style={{ paddingLeft: "3px" }} fontSize="small" />
+        
+              {" "}
+              <button className="logout-button" style={{width:"140px"}} onClick={handleCodingPage}>
+                <Grid
+                  container
+                  justifyContent="center"
+                  style={{ paddingTop: "20px", paddingLeft: "15px" }}
+                  spacing={2}
+                >
+                  <Grid>See Coding </Grid>
+                  <Grid>
+                    <NavigateNextIcon style={{ paddingLeft: "3px" }} fontSize="small" />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </button>
+              </button>
+            
+  
+              {" "}
+              <button className="logout-button" onClick={handleBackPage}>
+                <Grid
+                  container
+                  justifyContent="center"
+                  style={{ paddingTop: "20px", paddingLeft: "15px" }}
+                  spacing={2}
+                >
+                  <Grid>Home</Grid>
+                  <Grid>
+                    <HomeIcon style={{ paddingLeft: "3px" }} fontSize="small" />
+                  </Grid>
+                </Grid>
+              </button>
+       
           </Grid>
         </Grid>
       </Grid>
@@ -165,8 +189,7 @@ function SourceModelReprisentation() {
                         />
                       ))}
                       {currentTabel != null ? (
-                        <Dialog 
-                      
+                        <Dialog
                           open={openDialog}
                           onClose={handleCloseDialogAndCancelReq}
                         >
@@ -251,53 +274,51 @@ function SourceModelReprisentation() {
                                   </li>
                                 </ul>
                               ))}
-                              
-                             <hr
-                             style={{
-                             
-                                height: "1px",
-                                background: "black",
-                              }} 
-                            />
 
-                            
-                           <Grid container justifyContent="center">
-                              <span
+                              <hr
                                 style={{
-                                  fontSize: 20,
-                                  fontWeight: 400,
-                                  color: "#393E46",
-                                  textAlign: "center",
-                                  fontFamily: "Outfit",
+                                  height: "1px",
+                                  background: "black",
                                 }}
-                              >
-                                Methodes{" "}
-                              </span>
-                            </Grid>
-                            <div>
-                              {currentTabel.methode.map((dataATT) => (
-                                <ul>
-                                  <li>
-                                    <span
-                                      style={{
-                                        fontSize: 17,
-                                        fontWeight: 600,
-                                        color: "#393E46",
-                                        textAlign: "center",
-                                        fontFamily: "Outfit",
-                                        paddingTop: "5px",
-                                      }}
-                                    >
-                                      {"  " +
-                                        dataATT.methodeVisibilty +
-                                        "  " +
-                                        dataATT.methodeName +
-                                        " ()"}
-                                    </span>
-                                  </li>
-                                </ul>
-                              ))}
-                            </div>
+                              />
+
+                              <Grid container justifyContent="center">
+                                <span
+                                  style={{
+                                    fontSize: 20,
+                                    fontWeight: 400,
+                                    color: "#393E46",
+                                    textAlign: "center",
+                                    fontFamily: "Outfit",
+                                  }}
+                                >
+                                  Methodes{" "}
+                                </span>
+                              </Grid>
+                              <div>
+                                {currentTabel.methode.map((dataATT) => (
+                                  <ul>
+                                    <li>
+                                      <span
+                                        style={{
+                                          fontSize: 17,
+                                          fontWeight: 600,
+                                          color: "#393E46",
+                                          textAlign: "center",
+                                          fontFamily: "Outfit",
+                                          paddingTop: "5px",
+                                        }}
+                                      >
+                                        {"  " +
+                                          dataATT.methodeVisibilty +
+                                          "  " +
+                                          dataATT.methodeName +
+                                          " ()"}
+                                      </span>
+                                    </li>
+                                  </ul>
+                                ))}
+                              </div>
                             </div>
                           </DialogContent>
                           <DialogActions>
@@ -380,9 +401,7 @@ function SourceModelReprisentation() {
                       RelationShip Type
                     </StyledTableCell>
                     <StyledTableCell align="center">To</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Cardinalty
-                    </StyledTableCell>
+                    <StyledTableCell align="center">Cardinalty</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -397,7 +416,7 @@ function SourceModelReprisentation() {
                           <StyledTableCell align="center">
                             {row.name}
                           </StyledTableCell>
-                         
+
                           <StyledTableCell align="center">
                             {row.type}
                           </StyledTableCell>
